@@ -1,10 +1,10 @@
-package Logic;
+package maze.logic;
 
 public class Sword extends Cell {
     private boolean picked;
 
-    public Sword(int x, int y, String[][] maze) {
-        super(x, y, "S", maze);
+    public Sword(int x, int y) {
+        super(x, y, "S");
         this.picked = false;
     }
 
@@ -16,6 +16,4 @@ public class Sword extends Cell {
         this.picked = true;
         this.setId(" ");
     }
-
-    public void move(){}
 }

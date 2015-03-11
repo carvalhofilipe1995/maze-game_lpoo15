@@ -1,16 +1,14 @@
-package Logic;
+package maze.logic;
 
-import java.awt.Point;
+import java.awt.*;
 
 public abstract class Cell {
     protected Point coord;
     protected String id;
-    protected String[][] maze;
 
-    public Cell(int x, int y, String id, String[][] maze) {
+    public Cell(int x, int y, String id) {
         this.coord = new Point(x, y);
         this.id = id;
-        this.maze=maze;
     }
 
     public Point getCoord() {
@@ -21,14 +19,11 @@ public abstract class Cell {
         return id;
     }
 
-    public void setCoord(int x, int y) {
-        this.coord.setLocation(x, y);
-    }
-
     public void setId(String id) {
         this.id = id;
     }
 
-    public abstract void move();
-
+    public void setCoord(int x, int y) {
+        this.coord.setLocation(x, y);
+    }
 }
