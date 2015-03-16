@@ -18,6 +18,7 @@ public class MazeGenerator {
     protected Point exit;
     protected Hero hero;
     protected Sword sword;
+    protected Shield shield;
     protected ArrayList<Dragon> dragons;
 
     // constructor
@@ -59,12 +60,16 @@ public class MazeGenerator {
         return sword;
     }
 
+    public Shield getShield() {
+        return shield;
+    }
+
     public ArrayList<Dragon> getDragons() {
         return dragons;
     }
 
     public void setMaze(Point p, String change) {
-        this.lab[(int) p.getY()][(int) p.getX()] = change;
+        this.lab[(int) p.getX()][(int) p.getY()] = change;
     }
 
     public void setVisitedCells(Point p, String change) {
@@ -80,10 +85,10 @@ public class MazeGenerator {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if ((i % 2) != 0 && (j % 2) != 0) {
-                    Point p = new Point(j, i);
+                    Point p = new Point(i, j);
                     setMaze(p, " ");
                 } else {
-                    Point change = new Point(j, i);
+                    Point change = new Point(i, j);
                     setMaze(change, "X");
                 }
             }
@@ -92,7 +97,7 @@ public class MazeGenerator {
         // fill the visited cells array
 
         for (int i = 0; i < visitedCells.length; i++) {
-            for (int j = 0; j < visitedCells.length; j++)
+            for (int j = 0; j < visitedCells[i].length; j++)
                 visitedCells[i][j] = ".";
         }
 
@@ -188,7 +193,7 @@ public class MazeGenerator {
         }
 
         // exit
-        lab[(int) exit.getY()][(int) exit.getX()] = "S";
+        lab[(int) exit.getX()][(int) exit.getY()] = "S";
     }
 
     // Done
@@ -319,6 +324,11 @@ public class MazeGenerator {
         k = random.nextInt(emptyCells.size());
         sword = new Sword(emptyCells.elementAt(k).x, emptyCells.elementAt(k).y);
         lab[emptyCells.get(k).x][emptyCells.get(k).y] = "E";
+        emptyCells.remove(k);
+
+        k = random.nextInt(emptyCells.size());
+        shield = new Shield(emptyCells.elementAt(k).x, emptyCells.elementAt(k).y);
+        lab[emptyCells.get(k).x][emptyCells.get(k).y] = "e";
         emptyCells.remove(k);
 
         dragons = new ArrayList<>(3);

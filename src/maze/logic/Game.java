@@ -10,6 +10,7 @@ public class Game {
     private static Maze maze;
     private static Hero hero;
     private static Sword sword;
+    private static Shield shield;
     private static ArrayList<Dragon> dragons;
     private static int gameState;
 
@@ -38,6 +39,13 @@ public class Game {
                         hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
                         hero.grabSword();
                         sword.pickUp();
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
+                        break;
+                    case "e":
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
+                        hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
+                        hero.grabShield();
+                        shield.pickUp();
                         maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
                         break;
                     case "D":
@@ -94,6 +102,13 @@ public class Game {
                         sword.pickUp();
                         maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
                         break;
+                    case "e":
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
+                        hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
+                        hero.grabShield();
+                        shield.pickUp();
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
+                        break;
                     case "D":
                         maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                         if (hero.hasSword()) {
@@ -148,6 +163,13 @@ public class Game {
                         sword.pickUp();
                         maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
                         break;
+                    case "e":
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
+                        hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
+                        hero.grabShield();
+                        shield.pickUp();
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
+                        break;
                     case "D":
                         maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                         if (hero.hasSword()) {
@@ -200,6 +222,13 @@ public class Game {
                         hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
                         hero.grabSword();
                         sword.pickUp();
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
+                        break;
+                    case "e":
+                        maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
+                        hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
+                        hero.grabShield();
+                        shield.pickUp();
                         maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
                         break;
                     case "D":
@@ -339,10 +368,12 @@ public class Game {
             maze.setMaze(generator.getMaze());
             hero = generator.getHero();
             sword = generator.getSword();
+            shield = generator.getShield();
             dragons = generator.getDragons();
         } else {
             hero = new Hero(1, 1);
             sword = new Sword(8, 1);
+            shield = new Shield(5, 5);
             dragons = new ArrayList<>(1);
             dragons.add(new Dragon(3, 1, true, 0));
         }
@@ -364,10 +395,10 @@ public class Game {
         cli.drawMaze(maze.getMaze());
         switch (gameState) {
             case 1:
-                cli.defeat();
+                cli.victory();
                 break;
             case 2:
-                cli.victory();
+                cli.defeat();
                 break;
         }
     }
