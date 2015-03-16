@@ -26,4 +26,30 @@ public abstract class Cell {
     public void setCoord(int x, int y) {
         this.coord.setLocation(x, y);
     }
+
+    public boolean isNextTo(Cell c) {
+        if (this.coord.x == c.getCoord().x - 1 && this.coord.y == c.getCoord().y) {
+            return true;
+        }
+        if (this.coord.x == c.getCoord().x + 1 && this.coord.y == c.getCoord().y) {
+            return true;
+        }
+        if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y - 1) {
+            return true;
+        }
+        if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y + 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isInRange(Cell c, int range) {
+        if (Math.abs(this.coord.x - c.getCoord().x) <= range && this.coord.y == c.getCoord().y) {
+            return true;
+        }
+        if (this.coord.x == c.getCoord().x && Math.abs(this.coord.y - c.getCoord().y) <= range) {
+            return true;
+        }
+        return false;
+    }
 }

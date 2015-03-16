@@ -1,8 +1,10 @@
 package maze.logic;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
+import java.util.Vector;
 
 public class MazeGenerator {
     // camps
@@ -14,6 +16,9 @@ public class MazeGenerator {
     protected Stack<Point> pathHistory;
     protected Point guideCell;
     protected Point exit;
+    protected Hero hero;
+    protected Sword sword;
+    protected ArrayList<Dragon> dragons;
 
     // constructor
     public MazeGenerator(int height, int width) {
@@ -33,12 +38,29 @@ public class MazeGenerator {
         maze.printLabirinto();
     }
 
-    public int getHeight() {
-        return this.height;
+    /*
+        public int getHeight() {
+            return this.height;
+        }
+
+        public int getWidth() {
+            return this.width;
+        }
+    */
+    public String[][] getMaze() {
+        return lab;
     }
 
-    public int getWidth() {
-        return this.width;
+    public Hero getHero() {
+        return hero;
+    }
+
+    public Sword getSword() {
+        return sword;
+    }
+
+    public ArrayList<Dragon> getDragons() {
+        return dragons;
     }
 
     public void setMaze(Point p, String change) {
@@ -49,9 +71,6 @@ public class MazeGenerator {
         this.visitedCells[(int) p.getY()][(int) p.getX()] = change;
     }
 
-    public String[][] getMaze() {
-        return lab;
-    }
 
     // Create Maze
     public int createMaze() {
@@ -276,6 +295,40 @@ public class MazeGenerator {
                 break;
             default:
                 break;
+        }
+    }
+
+    public void populate(int nDragons, int tDragons) {
+        Vector<Point> emptyCells = new Vector<>(0, 1);
+        for (int i = 0; i < lab.length; i++) {
+            for (int j = 0; j < lab[i].length; j++) {
+                if (lab[i][j].equals(" ")) {
+                    emptyCells.add(new Point(i, j));
+                }
+            }
+        }
+
+        Random random = new Random();
+        int k;
+
+        k = random.nextInt(emptyCells.size());
+        hero = new Hero(emptyCells.elementAt(k).x, emptyCells.elementAt(k).y);
+        lab[emptyCells.get(k).x][emptyCells.get(k).y] = "H";
+        emptyCells.remove(k);
+
+        k = random.nextInt(emptyCells.size());
+        sword = new Sword(emptyCells.elementAt(k).x, emptyCells.elementAt(k).y);
+        lab[emptyCells.get(k).x][emptyCells.get(k).y] = "E";
+        emptyCells.remove(k);
+
+        dragons = new ArrayList<>(3);
+        Dragon dragon;
+        for (int l = 0; l < nDragons; l++) {
+            k = random.nextInt(emptyCells.size());
+            dragon = new Dragon(emptyCells.elementAt(k).x, emptyCells.elementAt(k).y, true, tDragons);
+            lab[emptyCells.get(k).x][emptyCells.get(k).y] = "D";
+            emptyCells.remove(k);
+            dragons.add(dragon);
         }
     }
 

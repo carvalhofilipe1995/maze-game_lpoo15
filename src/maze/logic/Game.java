@@ -1,5 +1,8 @@
 package maze.logic;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Game {
 
     private static maze.cli.Cli cli = new maze.cli.Cli();
@@ -7,8 +10,17 @@ public class Game {
     private static Maze maze;
     private static Hero hero;
     private static Sword sword;
-    private static Dragon dragon;
+    private static ArrayList<Dragon> dragons;
     private static int gameState;
+
+    public static boolean dragonsAlive() {
+        for (Dragon dragon : dragons) {
+            if (dragon.isAlive()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public static void moveHero(String input) {
@@ -33,7 +45,11 @@ public class Game {
                         if (hero.hasSword()) {
                             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         } else {
                             hero.kill();
                         }
@@ -43,11 +59,15 @@ public class Game {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         }
                         break;
                     case "S":
-                        if (!dragon.isAlive()) {
+                        if (!dragonsAlive()) {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
                             hero.setVictory();
@@ -79,7 +99,11 @@ public class Game {
                         if (hero.hasSword()) {
                             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         } else {
                             hero.kill();
                         }
@@ -89,11 +113,15 @@ public class Game {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         }
                         break;
                     case "S":
-                        if (!dragon.isAlive()) {
+                        if (!dragonsAlive()) {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
@@ -125,7 +153,11 @@ public class Game {
                         if (hero.hasSword()) {
                             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         } else {
                             hero.kill();
                         }
@@ -135,11 +167,15 @@ public class Game {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         }
                         break;
                     case "S":
-                        if (!dragon.isAlive()) {
+                        if (!dragonsAlive()) {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
@@ -171,7 +207,11 @@ public class Game {
                         if (hero.hasSword()) {
                             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         } else {
                             hero.kill();
                         }
@@ -181,11 +221,15 @@ public class Game {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
-                            dragon.kill();
+                            for (Dragon dragon : dragons) {
+                                if (dragon.getCoord().equals(hero.getCoord())) {
+                                    dragon.kill();
+                                }
+                            }
                         }
                         break;
                     case "S":
-                        if (!dragon.isAlive()) {
+                        if (!dragonsAlive()) {
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, " ");
                             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
                             maze.setCell(hero.getCoord().x, hero.getCoord().y, hero.getId());
@@ -205,16 +249,103 @@ public class Game {
         System.out.print("\n");
     }
 
+    public static void moveDragon() {
+        Random random = new Random();
+        int d;
+
+        for (Dragon dragon : dragons) {
+            if (dragon.isAlive() && dragon.isAwake() && (dragon.getType() == 2 || dragon.getType() == 3)) {
+                d = random.nextInt(5);
+                switch (d) {
+                    case 0://stay
+                        break;
+                    case 1://left
+                        if (maze.getCell(dragon.getCoord().x - 1, dragon.getCoord().y).equals(" ")) {
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, " ");
+                            dragon.setCoord(dragon.getCoord().x - 1, dragon.getCoord().y);
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, dragon.getId());
+                        }
+                        break;
+                    case 2://right
+                        if (maze.getCell(dragon.getCoord().x + 1, dragon.getCoord().y).equals(" ")) {
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, " ");
+                            dragon.setCoord(dragon.getCoord().x + 1, dragon.getCoord().y);
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, dragon.getId());
+                        }
+                        break;
+                    case 3://up
+                        if (maze.getCell(dragon.getCoord().x, dragon.getCoord().y - 1).equals(" ")) {
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, " ");
+                            dragon.setCoord(dragon.getCoord().x, dragon.getCoord().y - 1);
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, dragon.getId());
+                        }
+                        break;
+                    case 4://down
+                        if (maze.getCell(dragon.getCoord().x, dragon.getCoord().y + 1).equals(" ")) {
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, " ");
+                            dragon.setCoord(dragon.getCoord().x, dragon.getCoord().y + 1);
+                            maze.setCell(dragon.getCoord().x, dragon.getCoord().y, dragon.getId());
+                        }
+                        break;
+                    default:
+                        return;
+                }
+            }
+
+            if (dragon.isAlive() && dragon.getType() == 3) {
+                d = random.nextInt(100);
+                if (d % 2 == 0) {
+                    if (dragon.isAwake()) {
+                        dragon.setAsleep();
+                        maze.setCell(dragon.getCoord().x, dragon.getCoord().y, dragon.getId());
+                    } else {
+                        dragon.setAwake();
+                        maze.setCell(dragon.getCoord().x, dragon.getCoord().y, dragon.getId());
+                    }
+                }
+            }
+        }
+    }
+
+    public static void testEncounter() {
+        for (Dragon dragon : dragons) {
+            if (dragon.isAwake()) {
+                if (dragon.isNextTo(hero)) {
+                    if (!hero.hasSword()) {
+                        hero.kill();
+                    }
+                }/* else if (dragon.isInRange(hero, 3)) {
+                    if (!hero.hasShield()) {
+                        hero.kill();
+                    }
+                }*/
+            }
+        }
+    }
+
+    public static void updateGameState() {
+        if (!hero.isAlive())
+            gameState = 1;
+        else if (hero.getVictory())
+            gameState = 2;
+    }
+
     public static void init() {
         maze = new Maze();
         if (cli.getChooseMaze() == 2) {
             MazeGenerator generator = new MazeGenerator(cli.getHeight(), cli.getWidth());
             generator.createMaze();
+            generator.populate(cli.getNDragons(), cli.getTDragons());
             maze.setMaze(generator.getMaze());
+            hero = generator.getHero();
+            sword = generator.getSword();
+            dragons = generator.getDragons();
+        } else {
+            hero = new Hero(1, 1);
+            sword = new Sword(8, 1);
+            dragons = new ArrayList<>(1);
+            dragons.add(new Dragon(3, 1, true, 0));
         }
-        hero = new Hero(1, 1);
-        sword = new Sword(8, 1);
-        dragon = new Dragon(5, 4, true, "test");
         gameState = 0;
     }
 
@@ -224,7 +355,21 @@ public class Game {
             cli.drawMaze(maze.getMaze());
             System.out.print("\n");
             moveHero(cli.getDirection());
+            testEncounter();
+            moveDragon();
+            testEncounter();
+            updateGameState();
         } while (gameState == 0);
+
+        cli.drawMaze(maze.getMaze());
+        switch (gameState) {
+            case 1:
+                cli.defeat();
+                break;
+            case 2:
+                cli.victory();
+                break;
+        }
     }
 
     public static void main(String args[]) {
