@@ -1,10 +1,10 @@
 package maze.logic;
 
-public class Sword extends Cell {
+public class Shield extends Cell {
     private boolean picked;
 
-    public Sword(int x, int y) {
-        super(x, y, "/");
+    public Shield(int x, int y) {
+        super(x, y, "e");
         this.picked = false;
     }
 
