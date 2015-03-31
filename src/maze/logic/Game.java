@@ -59,6 +59,14 @@ public class Game {
 		}
 
 	}
+	
+	public boolean getGameState(){
+		return GameState;
+	}
+	
+	public Hero getHero(){
+		return hero;
+	}
 
 	// Update Game State
 
@@ -159,6 +167,8 @@ public class Game {
 				for (Dragon dragon : dragons) {
 					if (dragon.getCoord().equals(hero.getCoord())) {
 						dragon.kill();
+						maze.setMaze(dragon.getCoord(), " ");
+						dragons.remove(dragon);
 					}
 				}
 			} else {
@@ -219,6 +229,8 @@ public class Game {
 				for (Dragon dragon : dragons) {
 					if (dragon.getCoord().equals(hero.getCoord())) {
 						dragon.kill();
+						maze.setMaze(dragon.getCoord(), " ");
+						dragons.remove(dragon);
 					}
 				}
 			} else {
@@ -281,6 +293,8 @@ public class Game {
 				for (Dragon dragon : dragons) {
 					if (dragon.getCoord().equals(hero.getCoord())) {
 						dragon.kill();
+						maze.setMaze(dragon.getCoord(), " ");
+						dragons.remove(dragon);
 					}
 				}
 			} else {
@@ -342,12 +356,17 @@ public class Game {
 				hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
 				maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
 						hero.getId());
-				for (Dragon dragon : dragons)
-					if (dragon.getCoord().equals(hero.getCoord()))
+				for (Dragon dragon : dragons){
+					if (dragon.getCoord().equals(hero.getCoord())){
 						dragon.kill();
+						maze.setMaze(dragon.getCoord(), " ");
+						dragons.remove(dragon);
+					}
+				}
 
-			} else
+			} else{
 				hero.kill();
+			}
 
 		} else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
 				.getCoord().getY() + 1) == "d") {
@@ -369,7 +388,7 @@ public class Game {
 	// Dragons Movements
 
 	public void moveDragons(int type) {
-		if (type == 1) { // room
+		if (type == 2) { // room
 			for (Dragon i : dragons) {
 				int direction = random.nextInt(4);
 				int sleep = random.nextInt(2);
@@ -416,7 +435,7 @@ public class Game {
 
 				}
 			}
-		} else if (type == 2) { // room and sleep
+		} else if (type == 3) { // room and sleep
 			for (Dragon i : dragons) {
 				int direction = random.nextInt(4);
 				int sleep = random.nextInt(2);
@@ -518,7 +537,7 @@ public class Game {
 	}
 
 	public void choosePositionDragons(int number_dragons) {
-		for (int i = 0; i <= number_dragons; i++) {
+		for (int i = 0; i < number_dragons; i++) {
 			int position = random.nextInt(emptyCells.size());
 			dragons.get(i).setCoord(emptyCells.get(position).x,
 					emptyCells.get(position).y);

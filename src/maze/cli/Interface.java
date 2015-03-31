@@ -73,7 +73,6 @@ public class Interface {
 	}
 
 	public static void initializeGame() {
-		boolean state = false;
 		
 		System.out.print("\n\n");
 
@@ -88,7 +87,7 @@ public class Interface {
 			game.updateGameState(direction, type_dragons);
 
 
-		} while (!state);
+		} while (!game.getGameState() && game.getHero().isAlive());
 
 		System.out.println();
 	}
