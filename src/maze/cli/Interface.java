@@ -62,7 +62,7 @@ public class Interface {
 			game.initializePositionsElements(2);
 			break;
 		case 2:
-			game = new Game(size, size, number_dragons, type_dragons);
+			game = new Game(size, size, number_dragons);
 			game.initializePositionsElements(number_dragons);
 			break;
 		default:
@@ -72,24 +72,23 @@ public class Interface {
 
 	}
 
-	public static void initializeGame() {
+	public static void updateGame() {
 		
 		System.out.print("\n\n");
+	
+		game.printGame();
 
 		do {
 			
-			game.printGame();
-			
 			System.out.print("\n  Direction (w/s || a/d) -> ");
 			String direction = scan.next();
-			System.out.print("\n");
-			
+			System.out.print("\n\n");
 			game.updateGameState(direction, type_dragons);
-
+			
+			game.printGame();
 
 		} while (!game.getGameState() && game.getHero().isAlive());
 
-		System.out.println();
 	}
 
 	public static void main(String args[]) {
@@ -102,7 +101,7 @@ public class Interface {
 		switch (option) {
 		case 1:
 			createGame();
-			initializeGame();
+			updateGame();
 			break;
 		case 2:
 			System.out.print("\n    Quitting game! \n");
@@ -112,6 +111,15 @@ public class Interface {
 			break;
 
 		}
+		
+		if(game.getHero().isAlive() == true){
+			System.out.print("\n"
+					+ "-------- Congratulations! You Win! ----------\n\n");
+		}else{
+			System.out.print("\n"
+					+ "-------- Try Again! You Lose! ----------\n\n");
+		}
+		
 		scan.close();
 	}
 
