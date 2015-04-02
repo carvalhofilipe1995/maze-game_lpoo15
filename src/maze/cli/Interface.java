@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class Interface {
 
 	protected static Game game;
-	protected static int type_dragons;
 	static Scanner scan = new Scanner(System.in);
 
 	public static void printMenu() {
@@ -38,6 +37,7 @@ public class Interface {
 		System.out.print("    Option -> ");
 
 		int maze_preferences = scan.nextInt();
+		int type_dragons = 0;
 
 		if (maze_preferences == 2) {
 
@@ -62,7 +62,7 @@ public class Interface {
 			game.initializePositionsElements(2);
 			break;
 		case 2:
-			game = new Game(size, size, number_dragons);
+			game = new Game(size, size, number_dragons, type_dragons);
 			game.initializePositionsElements(number_dragons);
 			break;
 		default:
@@ -73,19 +73,34 @@ public class Interface {
 	}
 
 	public static void updateGame() {
-		
+
 		System.out.print("\n\n");
-	
+
 		game.printGame();
 
 		do {
-			
-			System.out.print("\n  Direction (w/s || a/d) -> ");
+
+			System.out.print("\n  Direction ( w/s || a/d || e ) -> ");
 			String direction = scan.next();
-			System.out.print("\n\n");
-			game.updateGameState(direction, type_dragons);
-			
-			game.printGame();
+
+			switch (direction) {
+			case "e":
+				if (game.getHero().hasDarts()) {
+					System.out.print("\n\n   -> Direction: ");
+					String darts = scan.next();
+					game.checkDartsDirection(darts);
+				} else {
+					System.out.print("\n\n   Hero doesn't have darts!  \n\n\n");
+				}
+				game.printGame();
+				break;
+			default:
+				System.out.print("\n\n");
+				game.updateGameState(direction);
+				game.checkIfDragonIsNear();
+				game.printGame();
+			}
+
 
 		} while (!game.getGameState() && game.getHero().isAlive());
 
@@ -94,7 +109,7 @@ public class Interface {
 	public static void main(String args[]) {
 		int option = 0;
 		boolean done = false;
-		
+
 		printMenu();
 		option = scan.nextInt();
 
@@ -111,15 +126,15 @@ public class Interface {
 			break;
 
 		}
-		
-		if(game.getHero().isAlive() == true){
+
+		if (game.getHero().isAlive() == true) {
 			System.out.print("\n"
 					+ "-------- Congratulations! You Win! ----------\n\n");
-		}else{
+		} else {
 			System.out.print("\n"
 					+ "-------- Try Again! You Lose! ----------\n\n");
 		}
-		
+
 		scan.close();
 	}
 

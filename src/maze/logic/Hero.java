@@ -6,7 +6,7 @@ public class Hero extends Cell {
 	private boolean sword;
 	private boolean shield;
 	private boolean victory;
-	private boolean darts;
+	private int darts;
 
 	public Hero(int x, int y) {
 		super(x, y, "H");
@@ -14,13 +14,14 @@ public class Hero extends Cell {
 		this.sword = false;
 		this.shield = false;
 		this.victory = false;
-		this.darts = false;
+		this.darts = 0;
 	}
 
 
 	public boolean isAlive() {
 		return this.alive;
 	}
+	
 
 	public void kill() {
 		this.alive = false;
@@ -31,11 +32,21 @@ public class Hero extends Cell {
 	}
 
 	public boolean hasDarts() {
-		return this.darts;
+		if(this.darts > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public void setDarts(){
+		this.darts -= 1;
+		if(darts == 0 && !hasSword()){
+			this.setId("H");
+		}
 	}
 
 	public void grabDarts() {
-		this.darts = true;
+		this.darts += 1;
 		this.setId("A");
 	}
 
