@@ -55,6 +55,10 @@ public class MazeGenerator {
 	public Sword getSword() {
 		return sword;
 	}
+	
+	public void setCellAsFire(Point p){
+		setMaze(p, "^");
+	}
 
 	public ArrayList<Dragon> getDragons() {
 		return dragons;

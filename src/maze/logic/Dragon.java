@@ -1,14 +1,19 @@
 package maze.logic;
 
+import java.awt.Point;
+import java.util.Vector;
+
 public class Dragon extends Cell {
 	private boolean alive;
 	private boolean awake;
 	private boolean visible;
+	private Vector<Point> cellsOnFire;
 
 	// 1 - static, 2 - roam, 3 - roam & sleep, 4 - fire
 
 	public Dragon(int x, int y) {
 		super(x, y, "D");
+		cellsOnFire = new Vector<Point>(0, 1);
 	}
 
 	public Dragon(int x, int y, boolean awake) {
@@ -16,6 +21,7 @@ public class Dragon extends Cell {
 		this.alive = true;
 		this.awake = awake;
 		this.visible = true;
+		cellsOnFire = new Vector<Point>(0, 1);
 	}
 
 	public String getType() {
@@ -24,6 +30,21 @@ public class Dragon extends Cell {
 
 	public boolean isAlive() {
 		return alive;
+	}
+
+	public void addCellFire(Point p) {
+		cellsOnFire.add(p);
+	}
+	
+	public Vector<Point> getCellsOnFire(){
+		return cellsOnFire;
+	}
+
+	public void removeCellsOnFire() {
+		
+		for (Point c : cellsOnFire)
+			cellsOnFire.remove(c);
+
 	}
 
 	public void kill() {
@@ -43,12 +64,12 @@ public class Dragon extends Cell {
 		awake = true;
 		this.setId("D");
 	}
-	
-	public boolean isVisible(){
+
+	public boolean isVisible() {
 		return visible;
 	}
-	
-	public void setVisible(){
+
+	public void setVisible() {
 		this.visible = !visible;
 	}
 }
