@@ -93,7 +93,6 @@ public class Game {
 				deleteDragonFire(i);
 			moveDragons();
 			for (Dragon j : dragons)
-				if (j.isAwake())
 					dragonsFire(j);
 
 		} else if (type_dragons == 3) {
@@ -102,7 +101,8 @@ public class Game {
 			moveDragons();
 			sleepDragons();
 			for (Dragon j : dragons)
-				dragonsFire(j);
+				if (j.isAwake())
+					dragonsFire(j);
 
 		}
 
@@ -505,6 +505,7 @@ public class Game {
 			} else if (maze.getCell(i, d.getCoord().y) == " ") {
 				// set cell as fire
 				maze.setCellAsFire(new Point(i, d.getCoord().y));
+				d.addCellFire(new Point(i, d.getCoord().y));
 			}
 		}
 
@@ -519,6 +520,7 @@ public class Game {
 			} else if (maze.getCell(i, d.getCoord().y) == " ") {
 				// set cell as fire
 				maze.setCellAsFire(new Point(i, d.getCoord().y));
+				d.addCellFire(new Point(i, d.getCoord().y));
 			}
 		}
 
@@ -533,6 +535,7 @@ public class Game {
 			} else if (maze.getCell(d.getCoord().x, i) == " ") {
 				// set cell as fire
 				maze.setCellAsFire(new Point(d.getCoord().x, i));
+				d.addCellFire(new Point(d.getCoord().x, i));
 			}
 		}
 
@@ -544,6 +547,7 @@ public class Game {
 			} else if (maze.getCell(d.getCoord().x, i) == " ") {
 				// set cell as fire
 				maze.setCellAsFire(new Point(d.getCoord().x, i));
+				d.addCellFire(new Point(d.getCoord().x, i));
 			}
 		}
 
@@ -552,8 +556,9 @@ public class Game {
 	public void deleteDragonFire(Dragon d) {
 
 		for (Dragon i : dragons) {
-
-			for (Point p : i.getCellsOnFire()) {
+			Vector<Point> fire = i.getCellsOnFire();
+			
+			for (Point p : fire) {
 				maze.setMaze(p, " ");
 			}
 

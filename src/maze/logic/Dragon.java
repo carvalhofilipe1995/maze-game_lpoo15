@@ -42,8 +42,7 @@ public class Dragon extends Cell {
 
 	public void removeCellsOnFire() {
 		
-		for (Point c : cellsOnFire)
-			cellsOnFire.remove(c);
+		cellsOnFire.removeAllElements();
 
 	}
 
