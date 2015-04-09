@@ -72,6 +72,11 @@ public class Game {
 	public Hero getHero() {
 		return hero;
 	}
+	
+	public MazeGenerator getMaze(){
+		return maze;
+	}
+	
 
 	// Update Game State
 

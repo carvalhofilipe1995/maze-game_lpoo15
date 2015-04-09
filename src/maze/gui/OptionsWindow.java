@@ -21,7 +21,7 @@ import maze.logic.Game;
 public class OptionsWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private Game g;
+	private Game game;
 
 	private JSlider dimensionSlider;
 	private JSlider num_Dragons;
@@ -34,7 +34,6 @@ public class OptionsWindow extends JDialog {
 
 		setTitle("Options");
 		getContentPane().setLayout(new GridLayout(11, 1));
-
 		
 		initializeMazePreferences();
 		initializeDragonsPreferences();
@@ -130,7 +129,7 @@ public class OptionsWindow extends JDialog {
 					}
 					
 					
-				} else {
+				} else{
 					setVisible(false);
 				}
 			}

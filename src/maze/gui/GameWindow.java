@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import maze.logic.Game;
+
 
 /*
  * Represents the game window
@@ -21,6 +23,8 @@ import javax.swing.JPanel;
 public class GameWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private Game game;
 
 	private JButton newGame;
 	private JButton createGame;
