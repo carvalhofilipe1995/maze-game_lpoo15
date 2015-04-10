@@ -2,140 +2,147 @@ package maze.cli;
 
 import maze.logic.Game;
 
-import java.io.Console;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Interface {
 
-	protected static Game game;
-	static Scanner scan = new Scanner(System.in);
+    protected static Game game;
+    static Scanner scan = new Scanner(System.in);
 
-	public static void printMenu() {
+    public static void printMenu() {
+        System.out.print(">>>>>>>>>> The Labirinth >>>>>>>>>>\n\n");
+        System.out.print("\t1. Play\n");
+        System.out.print("\t2. Quit\n");
+        System.out.print("\n\tOption -> ");
+    }
 
-		System.out.print(">>>>>>>>>> The Labirinth >>>>>>>>>>\n\n");
+    public static void createGame() {
 
-		System.out.print("	1. Play \n");
-		System.out.print("	2. Quit \n");
+        int size = -1;
+        int number_dragons = -1;
+        int type_dragons = -1;
+        int maze_preferences = -1;
 
-		System.out.print("\n   Action -> ");
-	}
+        System.out.print("\n>>>>>>>>>>>>> Options >>>>>>>>>>>>>>\n\n");
+        System.out.print("---> Choose which maze do you want to play: "
+                + "\n\n\t1. Default\n\t2. Generate a new Maze   \n");
 
-	public int getHeroMoves() {
-		return 0;
-	}
+        while (maze_preferences != 1 && maze_preferences != 2) try {
+            System.out.print("\n\tOption -> ");
+            maze_preferences = Integer.parseInt(scan.next());
+        } catch (Exception e) {
+        }
 
-	public static void createGame() {
+        if (maze_preferences == 2) {
 
-		int size = 0;
-		int number_dragons = 0;
+            while (size < 5 || size % 2 == 0) try {
+                System.out
+                        .print("\n---> Maze size (odd value between 5 and 99):  ");
+                size = Integer.parseInt(scan.next());
+            } catch (Exception e) {
+            }
 
-		System.out.print("\n\n>>>>>>>>>>>>> Options >>>>>>>>>>>>>>\n\n");
-		System.out.print(" -> Choose which maze do you want to play: "
-				+ "\n\n    1. Default    2. Generate a new Maze   \n\n\n");
+            while (number_dragons == -1) try {
+                System.out.print("\n---> Number of dragons:   ");
+                number_dragons = Integer.parseInt(scan.next());
+            } catch (Exception e) {
+            }
 
-		System.out.print("    Option -> ");
+            System.out.print("\n\n---> Type of dragons: \n"
+                    + "\n\t1. Static\n"
+                    + "\n\t2. Roam\n"
+                    + "\n\t3. Roam and Sleep\n"
+                    + "\n\t4. Roam, Sleep and Fire breath");
+            while (type_dragons == -1) try {
+                System.out.print("\n\tOption -> ");
+                type_dragons = Integer.parseInt(scan.next());
+            } catch (Exception e) {
+            }
+        }
 
-		int maze_preferences = scan.nextInt();
-		int type_dragons = 0;
+        switch (maze_preferences) {
+            case 1:
+                game = new Game();
+                game.initializePositionsElements(2);
+                break;
+            case 2:
+                game = new Game(size, size, number_dragons, type_dragons);
+                game.initializePositionsElements(number_dragons);
+                break;
+            default:
+                System.out.print("\n    Invalid input! Try again! \n");
+                break;
+        }
 
-		if (maze_preferences == 2) {
+    }
 
-			while (size < 5 || size % 2 == 0) {
-				System.out
-						.print("\n\n---> Maze size (odd value between 5 and 99):  ");
-				size = scan.nextInt();
-			}
+    public static void updateGame() {
 
-			System.out.print("\n\n---> Number of dragons:   ");
-			number_dragons = scan.nextInt();
+        System.out.print("\n\n");
 
-			System.out.print("\n\n---> Type of dragons: " + "\n\n  1. Static\n"
-					+ "\n  2. Roam\n" + "\n  3. Roam and Sleep\n");
-			System.out.print("\n    Action -> ");
-			type_dragons = scan.nextInt();
-		}
+        game.printGame();
 
-		switch (maze_preferences) {
-		case 1:
-			game = new Game();
-			game.initializePositionsElements(2);
-			break;
-		case 2:
-			game = new Game(size, size, number_dragons, type_dragons);
-			game.initializePositionsElements(number_dragons);
-			break;
-		default:
-			System.out.print("\n    Invalid input! Try again! \n");
-			break;
-		}
+        do {
 
-	}
+            System.out.print("\n  Direction ( w/s || a/d || e ) -> ");
+            String direction = scan.next();
 
-	public static void updateGame() {
-
-		System.out.print("\n\n");
-
-		game.printGame();
-
-		do {
-
-			System.out.print("\n  Direction ( w/s || a/d || e ) -> ");
-			String direction = scan.next();
-
-			switch (direction) {
-			case "e":
-				if (game.getHero().hasDarts()) {
-					System.out.print("\n\n   -> Direction: ");
-					String darts = scan.next();
-					game.checkDartsDirection(darts);
-				} else {
-					System.out.print("\n\n   Hero doesn't have darts!  \n\n\n");
-				}
-				game.printGame();
-				break;
-			default:
-				System.out.print("\n\n");
-				game.updateGameState(direction);
-				game.checkIfDragonIsNear();
-				game.printGame();
-			}
+            switch (direction) {
+                case "e":
+                    if (game.getHero().hasDarts()) {
+                        System.out.print("\n\n   -> Direction: ");
+                        String darts = scan.next();
+                        game.checkDartsDirection(darts);
+                    } else {
+                        System.out.print("\n\n   Hero doesn't have darts!  \n\n\n");
+                    }
+                    game.printGame();
+                    break;
+                default:
+                    System.out.print("\n\n");
+                    game.updateGameState(direction);
+                    game.checkIfDragonIsNear();
+                    game.printGame();
+            }
 
 
-		} while (!game.getGameState() && game.getHero().isAlive());
+        } while (!game.getGameState() && game.getHero().isAlive());
 
-	}
+    }
 
-	public static void main(String args[]) {
-		int option = 0;
-		boolean done = false;
+    public static void main(String args[]) {
+        int option = 0;
+        boolean done = false;
 
-		printMenu();
-		option = scan.nextInt();
+        printMenu();
+        while (!done) {
+            try {
+                option = Integer.parseInt(scan.next());
+            } catch (Exception e) {
+            }
+            switch (option) {
+                case 1:
+                    done = true;
+                    createGame();
+                    updateGame();
+                    if (game.getHero().isAlive() == true) {
+                        System.out.print("\n"
+                                + "-------- Congratulations! You Win! ----------\n\n");
+                    } else {
+                        System.out.print("\n"
+                                + "-------- Try Again! You Lose! ----------\n\n");
+                    }
+                    break;
+                case 2:
+                    System.out.print("\n    Quitting game! \n");
+                    return;
+                default:
+                    System.out.print("\n\n 	Invalid input! Try again!\n");
+                    break;
+            }
 
-		switch (option) {
-		case 1:
-			createGame();
-			updateGame();
-			break;
-		case 2:
-			System.out.print("\n    Quitting game! \n");
-			break;
-		default:
-			System.out.print("\n\n 	Invalid input! Try again!\n");
-			break;
-
-		}
-
-		if (game.getHero().isAlive() == true) {
-			System.out.print("\n"
-					+ "-------- Congratulations! You Win! ----------\n\n");
-		} else {
-			System.out.print("\n"
-					+ "-------- Try Again! You Lose! ----------\n\n");
-		}
-
-		scan.close();
-	}
+        }
+        scan.close();
+    }
 
 }

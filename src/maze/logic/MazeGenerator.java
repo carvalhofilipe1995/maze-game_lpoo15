@@ -1,10 +1,8 @@
 package maze.logic;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-import java.util.Vector;
 
 public class MazeGenerator {
 	// camps
@@ -16,12 +14,13 @@ public class MazeGenerator {
 	protected Stack<Point> pathHistory;
 	protected Point guideCell;
 	protected Point exit;
-	protected Hero hero;
-	protected Sword sword;
-	protected ArrayList<Dragon> dragons;
+    //protected Hero hero;
+    //protected Sword sword;
+    //protected ArrayList<Dragon> dragons;
 
-	// constructor
-	public MazeGenerator(int height, int width) {
+
+    // constructor
+    public MazeGenerator(int height, int width) {
 		this.height = height;
 		this.width = width;
 		this.lab = new String[height][width];
@@ -48,21 +47,25 @@ public class MazeGenerator {
 		return lab[y][x];
 	}
 
-	public Hero getHero() {
-		return hero;
-	}
+	/* public Hero getHero() {
+        return hero;
+	}*/
 
-	public Sword getSword() {
-		return sword;
-	}
-	
-	public void setCellAsFire(Point p){
+	/*public Sword getSword() {
+        return sword;
+	}*/
+
+    public Point getExit() {
+        return exit;
+    }
+
+    public void setCellAsFire(Point p){
 		setMaze(p, "^");
 	}
 
-	public ArrayList<Dragon> getDragons() {
-		return dragons;
-	}
+	/*public ArrayList<Dragon> getDragons() {
+        return dragons;
+	}*/
 
 	public void setMaze(Point p, String change) {
 		this.lab[(int) p.getY()][(int) p.getX()] = change;
