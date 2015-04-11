@@ -23,7 +23,7 @@ public class Game {
 
     public Game() {
 
-        maze = new MazeGenerator(11, 11);
+        maze = new MazeGenerator(17, 17);
         hero = new Hero(0, 0);
         sword = new Sword(0, 0);
         shield = new Shield(0, 0);
@@ -36,8 +36,8 @@ public class Game {
         //doubleCells = new Vector<>(0, 1);
 
         dragons = new ArrayList<>();
-        dragons.add(new Dragon(0, 0));
-        dragons.add(new Dragon(0, 0));
+        dragons.add(new Dragon(0, 0, true));
+        dragons.add(new Dragon(0, 0, true));
     }
 
     public Game(int height, int width, int number_dragons, int type_dragons) {
