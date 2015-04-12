@@ -5,12 +5,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import maze.logic.Dragon;
@@ -18,37 +22,48 @@ import maze.logic.Game;
 
 public class GameConsole extends JPanel implements ActionListener {
 
-	int cellWidth, cellHeight;
-
+	private int cellWidth, cellHeight;
 	private BufferedImage heroWithSword;
 	private BufferedImage heroWithOutSword;
-
 	private BufferedImage darts;
 	private BufferedImage sword;
 	private BufferedImage shield;
 	private BufferedImage dragonAwake;
 	private BufferedImage dragonSleep;
-
 	private BufferedImage path;
 	private BufferedImage wall;
 	private BufferedImage exit;
-
 	private BufferedImage background;
-
-	private boolean showBackground = false;
-
+	private boolean showBackground = true;
 	private Game game;
+
+	// Load information
 
 	public GameConsole() {
 
-		loadImages();
+		addKeyListener(new KeyBoard());
+		setFocusable(true);
+		setDoubleBuffered(true);
 
-		game = new Game();
-		game.initializePositionsElements(2);
+		loadImages();
+	}
+
+	public void startNewGame(int width, int heigth, int numberDragons,
+			int typeDragons) {
+
+		game = new Game(width, heigth, numberDragons, typeDragons);
+
+		game.initializePositionsElements(numberDragons);
+
+		initGame();
+	}
+
+	public void initGame() {
+		// showBackground = false;
+		requestFocus();
 	}
 
 	public void loadImages() {
-
 		try {
 
 			heroWithSword = ImageIO.read(new File("images/heroWithSword.jpg"));
@@ -69,31 +84,25 @@ public class GameConsole extends JPanel implements ActionListener {
 		} catch (IOException e) {
 
 		}
-
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-	}
+	// Drawing
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // clean
-
 		Graphics2D graphics = (Graphics2D) g;
 
-		if (showBackground)
-			graphics.drawImage(background, 0, 0, this.getWidth(),
-					this.getHeight(), 0, 0, background.getWidth(),
-					background.getHeight(), null);
-		else
-			drawGame(graphics);
+		/*
+		 * if (showBackground) graphics.drawImage(background, 0, 0,
+		 * this.getWidth(), this.getHeight(), 0, 0, background.getWidth(),
+		 * background.getHeight(), null); else
+		 */
+
+		drawGame(graphics);
 	}
 
 	public void drawGame(Graphics2D g2d) {
-
-		// Drawing maze
 
 		for (int i = 0; i < game.getMaze().getWidth(); i++)
 			for (int j = 0; j < game.getMaze().getHeight(); j++)
@@ -151,14 +160,79 @@ public class GameConsole extends JPanel implements ActionListener {
 
 	}
 
-	public static void main(String args[]) {
-		JFrame f = new JFrame("Graphics");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setPreferredSize(new Dimension(700, 700));
-		JPanel panel = new GameConsole();
-		f.getContentPane().add(panel);
-		f.pack();
-		f.setVisible(true);
+	// Update Game State
+
+	private class KeyBoard extends KeyAdapter {
+
+		public void keyPressed(KeyEvent e) {
+
+			int key = e.getKeyCode();
+
+			if (key == KeyEvent.VK_RIGHT)
+				game.updateGameState("d");
+			else if (key == KeyEvent.VK_LEFT)
+				game.updateGameState("a");
+			else if (key == KeyEvent.VK_UP)
+				game.updateGameState("w");
+			else if (key == KeyEvent.VK_DOWN)
+				game.updateGameState("s");
+			else if (key == KeyEvent.VK_SPACE) {
+
+				if (game.getHero().hasDarts()) {
+					String[] options = { "UP", "DOWN", "RIGHT", "LEFT" };
+					String message = "Choose only one?";
+
+					int direction = JOptionPane.showOptionDialog(getRootPane(),
+							message, "Direction Darts",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.INFORMATION_MESSAGE, null, options,
+							options[0]);
+
+					switch (direction) {
+					case 0:
+						game.checkDartsDirection("w");
+						break;
+					case 1:
+						game.checkDartsDirection("s");
+						break;
+					case 2:
+						game.checkDartsDirection("a");
+						break;
+					case 3:
+						game.checkDartsDirection("d");
+						break;
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(getRootPane(),
+							"Hero doesn't have darts!");
+				}
+			}
+
+			game.checkIfDragonIsNear();
+
+			if (!(!game.getGameState() && game.getHero().isAlive()))
+
+				if (game.getHero().isAlive()){
+					JOptionPane.showMessageDialog(getRootPane(),
+							"Congratulations! You win!");
+					setVisible(false);
+					return;
+				}else{
+					JOptionPane.showMessageDialog(getRootPane(),
+							"Try again! You lose!");
+					setVisible(false);
+					return;
+				}
+
+			repaint();
+
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		repaint();
 	}
 
 }

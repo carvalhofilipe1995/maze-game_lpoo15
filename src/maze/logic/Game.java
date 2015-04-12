@@ -110,6 +110,7 @@ public class Game {
         }
 
         if (type_dragons == 2) {
+  
             for (Dragon i : dragons) {
                 deleteDragonFire();
                 moveDragons(i, random.nextInt(4));

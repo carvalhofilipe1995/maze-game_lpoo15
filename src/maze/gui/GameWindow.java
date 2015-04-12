@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,7 +26,7 @@ public class GameWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Game game;
+	private GameConsole gameConsole;
 
 	private JButton newGame;
 	private JButton createGame;
@@ -44,12 +46,11 @@ public class GameWindow extends JFrame {
 
 		panelButtonsUp = new JPanel();
 		panelButtonsDown = new JPanel();
-		
+		gameConsole = new GameConsole();
 		options = new OptionsWindow();
 
 		initializeButtons();
 		getContentPane().setLayout(new BorderLayout(0, 0));
-
 		addButtonsLayout();
 
 	}
@@ -65,7 +66,15 @@ public class GameWindow extends JFrame {
 				int option = JOptionPane.showConfirmDialog(rootPane, message);
 
 				if (option == JOptionPane.YES_OPTION) {
+					setSize(642, 598);
+					getContentPane().add(gameConsole);
 
+					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+					setLocation(dim.width / 2 - getSize().width / 2, dim.height
+							/ 2 - getSize().height / 2);
+
+					gameConsole.startNewGame(options.getSizeLabirinth(),options.getSizeLabirinth(), options.getNumberDragons(), options.getTypeDragons());
+										
 				}
 			}
 		});
@@ -145,5 +154,6 @@ public class GameWindow extends JFrame {
 		GameWindow g = new GameWindow();
 		g.startGameFrame();
 	}
+
 
 }

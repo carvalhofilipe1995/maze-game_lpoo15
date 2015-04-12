@@ -28,6 +28,10 @@ public class OptionsWindow extends JDialog {
 	private JComboBox<?> typeSelector;
 	private JButton confirmButton;
 	private JButton cancelButton;
+	
+	private int size_labirinth = 11;
+	private int number_dragons = 2;
+	private int typeDragons = 1;
 
 	
 	public OptionsWindow() {
@@ -95,8 +99,8 @@ public class OptionsWindow extends JDialog {
 		JLabel lblDragons = new JLabel("Type of dragons");
 		lblDragons.setHorizontalAlignment(SwingConstants.LEFT);
 		dragons_type.add(lblDragons);
-		String[] type = { "Static", "Room",
-				"Room and Sleep" };
+		String[] type = { "Static", "Roam",
+				"Roam and Sleep" };
 		typeSelector = new JComboBox<Object>(type);
 		typeSelector.setSelectedIndex(0);
 		dragons_type.add(typeSelector);
@@ -116,18 +120,19 @@ public class OptionsWindow extends JDialog {
 				
 				if(option == JOptionPane.YES_OPTION){
 					
-					int sizeLabirinth = dimensionSlider.getValue();
-					int numberDragons = num_Dragons.getValue();
-					String type_dragons = typeSelector.getName();
+				 size_labirinth = dimensionSlider.getValue();
+				 number_dragons = num_Dragons.getValue();
+				 int type_dragons = typeSelector.getSelectedIndex();
 					
-					if(type_dragons == "Static"){
-						
-					} else if(type_dragons == "Roam"){
-						
-					} else if(type_dragons == "Roam and Sleep"){
-						
+					if(type_dragons == 0){
+						typeDragons = 1;
+					} else if(type_dragons == 1){
+						typeDragons = 2;
+					} else if(type_dragons == 2){
+						typeDragons = 3;
 					}
 					
+					setVisible(false);
 					
 				} else{
 					setVisible(false);
@@ -152,6 +157,18 @@ public class OptionsWindow extends JDialog {
 		buttons.add(cancelButton);
 		getContentPane().add(buttons, BorderLayout.PAGE_END);
 		
+	}
+	
+	public int getSizeLabirinth(){
+		return size_labirinth;
+	}
+	
+	public int getNumberDragons(){
+		return number_dragons;
+	}
+	
+	public int getTypeDragons(){
+		return typeDragons;
 	}
 
 	
