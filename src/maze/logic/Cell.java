@@ -5,10 +5,20 @@ import java.awt.*;
 public abstract class Cell {
     protected Point coord;
     protected String id;
+    protected boolean visible;
 
-    public Cell(int x, int y, String id) {
+    public Cell(int x, int y, String id, boolean visible) {
         this.coord = new Point(x, y);
         this.id = id;
+        this.visible = visible;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible() {
+        this.visible = !visible;
     }
 
     public Point getCoord() {
@@ -30,29 +40,27 @@ public abstract class Cell {
     public boolean isNextTo(Cell c) {
         if (this.coord.x == c.getCoord().x - 1 && this.coord.y == c.getCoord().y) {
             return true;
-        }
-        if (this.coord.x == c.getCoord().x + 1 && this.coord.y == c.getCoord().y) {
+        } else if (this.coord.x == c.getCoord().x + 1 && this.coord.y == c.getCoord().y) {
             return true;
-        }
-        if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y - 1) {
+        } else if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y - 1) {
             return true;
+        } else if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y + 1) {
+            return true;
+        } else {
+            return false;
         }
-        if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y + 1) {
+    }
+
+    public boolean isInRange(Cell c, int range) {
+        if (Math.abs(this.coord.x - c.getCoord().x) <= range && this.coord.y == c.getCoord().y && !this.coord.equals
+                (c.getCoord())) {
+            return true;
+        } else if (this.coord.x == c.getCoord().x && Math.abs(this.coord.y - c.getCoord().y) <= range && !this.coord
+                .equals(c.getCoord())) {
             return true;
         }
         return false;
     }
 
-    public boolean isInRange(Cell c, int range) {
-        if (Math.abs(this.coord.x - c.getCoord().x) <= range && this.coord.y == c.getCoord().y) {
-            return true;
-        }
-        if (this.coord.x == c.getCoord().x && Math.abs(this.coord.y - c.getCoord().y) <= range) {
-            return true;
-        }
-        return false;
-    }
-    
-   
-    
+
 }

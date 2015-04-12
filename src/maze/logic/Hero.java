@@ -9,7 +9,7 @@ public class Hero extends Cell {
 	private int darts;
 
 	public Hero(int x, int y) {
-		super(x, y, "H");
+		super(x, y, "H", true);
 		this.alive = true;
 		this.sword = false;
 		this.shield = false;
@@ -40,7 +40,7 @@ public class Hero extends Cell {
 	
 	public void setDarts(){
 		this.darts -= 1;
-		if(darts == 0 && !hasSword()){
+		if (darts <= 0 && !hasSword()) {
 			this.setId("H");
 		}
 	}

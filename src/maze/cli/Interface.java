@@ -51,9 +51,8 @@ public class Interface {
             System.out.print("\n\n---> Type of dragons: \n"
                     + "\n\t1. Static\n"
                     + "\n\t2. Roam\n"
-                    + "\n\t3. Roam and Sleep\n"
-                    + "\n\t4. Roam, Sleep and Fire breath");
-            while (type_dragons == -1) try {
+                    + "\n\t3. Roam and Sleep\n");
+            while (type_dragons < 1 || type_dragons > 3) try {
                 System.out.print("\n\tOption -> ");
                 type_dragons = Integer.parseInt(scan.next());
             } catch (Exception e) {

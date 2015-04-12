@@ -98,35 +98,33 @@ public class Game {
 
         boolean swordVisible = true;
 
-        heroMove(direction);
-
         if (dragons.size() == 0)
             exitOpen = true;
 
-        if (maze.getCell(hero.getCoord().x, hero.getCoord().y) == "S"
+        heroMove(direction);
+
+        if (maze.getCell(hero.getCoord().x, hero.getCoord().y).equals("S")
                 && exitOpen == true) {
             GameState = true;
             return;
         }
 
         if (type_dragons == 2) {
-            for (Dragon i : dragons)
+            for (Dragon i : dragons) {
                 deleteDragonFire();
-            moveDragons();
-            for (Dragon j : dragons)
-                dragonsFire(j);
+                moveDragons(i, random.nextInt(4));
+                dragonsFire(i);
+            }
 
         } else if (type_dragons == 3) {
-            for (Dragon i : dragons)
+            for (Dragon i : dragons) {
                 deleteDragonFire();
-            moveDragons();
-            sleepDragons();
-            for (Dragon j : dragons)
-                if (j.isAwake())
-                    dragonsFire(j);
-
+                moveDragons(i, random.nextInt(4));
+                sleepDragons();
+                if (i.isAwake())
+                    dragonsFire(i);
+            }
         }
-
 
         for (Dragon i : dragons) {
             if (i.getCoord().x == sword.getCoord().x
@@ -227,7 +225,7 @@ public class Game {
                 .getCoord().getY()) == "/") {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
-            hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
+            hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
             hero.grabSword();
             sword.pickUp();
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
@@ -595,86 +593,78 @@ public class Game {
 
     }
 
-    public void moveDragons() {
+    public void moveDragons(Dragon i, int direction) {
 
-        for (Dragon i : dragons) {
+        switch (direction) {
+            case 0: // up
+                if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == " ") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x, i.getCoord().y - 1);
+                    maze.setMaze(i.getCoord(), i.getType());
+                } else if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == "/") {
+                    sword.setVisible();
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x, i.getCoord().y - 1);
+                    maze.setMaze(i.getCoord(), "F");
+                } else if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == "^") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x, i.getCoord().y - 1);
+                    maze.setMaze(i.getCoord(), i.getType());
+                }
+                break;
+            case 1: // down
+                if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == " ") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x, i.getCoord().y + 1);
+                    maze.setMaze(i.getCoord(), i.getType());
+                } else if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == "/") {
+                    sword.setVisible();
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x, i.getCoord().y + 1);
+                    maze.setMaze(i.getCoord(), "F");
+                } else if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == "^") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x, i.getCoord().y + 1);
+                    maze.setMaze(i.getCoord(), i.getType());
+                }
+                break;
+            case 2: // right
+                if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == " ") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x + 1, i.getCoord().y);
+                    maze.setMaze(i.getCoord(), i.getType());
+                } else if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == "/") {
+                    sword.setVisible();
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x + 1, i.getCoord().y);
+                    maze.setMaze(i.getCoord(), "F");
+                } else if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == "^") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x + 1, i.getCoord().y);
+                    maze.setMaze(i.getCoord(), i.getType());
+                }
+                break;
+            case 3: // left
+                if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == " ") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x - 1, i.getCoord().y);
+                    maze.setMaze(i.getCoord(), i.getType());
+                } else if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == "/") {
+                    sword.setVisible();
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x - 1, i.getCoord().y);
+                    maze.setMaze(i.getCoord(), "F");
+                } else if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == "^") {
+                    maze.setMaze(i.getCoord(), " ");
+                    i.setCoord(i.getCoord().x - 1, i.getCoord().y);
+                    maze.setMaze(i.getCoord(), i.getType());
+                }
+                break;
+            default:
+                break;
 
-            int direction = random.nextInt(4);
-
-            switch (direction) {
-                case 0: // up
-                    if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == " ") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x, i.getCoord().y - 1);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    } else if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == "/") {
-                        sword.setVisible();
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x, i.getCoord().y - 1);
-                        maze.setMaze(i.getCoord(), "F");
-                        //doubleCells.add(i.getCoord());
-                    } else if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == "^") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x, i.getCoord().y - 1);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    }
-                    break;
-                case 1: // down
-                    if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == " ") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x, i.getCoord().y + 1);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    } else if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == "/") {
-                        sword.setVisible();
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x, i.getCoord().y + 1);
-                        maze.setMaze(i.getCoord(), "F");
-                        // doubleCells.add(i.getCoord());
-                    } else if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == " ") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x, i.getCoord().y + 1);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    }
-                    break;
-                case 2: // right
-                    if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == " ") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x + 1, i.getCoord().y);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    } else if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == "/") {
-                        sword.setVisible();
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x + 1, i.getCoord().y);
-                        maze.setMaze(i.getCoord(), "F");
-                        //doubleCells.add(i.getCoord());
-                    } else if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == "^") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x + 1, i.getCoord().y);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    }
-                    break;
-                case 3: // left
-                    if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == " ") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x - 1, i.getCoord().y);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    } else if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == "/") {
-                        sword.setVisible();
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x - 1, i.getCoord().y);
-                        maze.setMaze(i.getCoord(), "F");
-                        // doubleCells.add(i.getCoord());
-                    } else if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == "^") {
-                        maze.setMaze(i.getCoord(), " ");
-                        i.setCoord(i.getCoord().x - 1, i.getCoord().y);
-                        maze.setMaze(i.getCoord(), i.getType());
-                    }
-                    break;
-                default:
-                    break;
-
-            }
         }
+
     }
 
     public void sleepDragons() {

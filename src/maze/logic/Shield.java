@@ -4,7 +4,7 @@ public class Shield extends Cell {
     private boolean picked;
 
     public Shield(int x, int y) {
-        super(x, y, "e");
+        super(x, y, "e", true);
         this.picked = false;
     }
 
