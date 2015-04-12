@@ -15,6 +15,19 @@ public class EditorWindow extends JFrame {
     private int mazeSize, typeDragons;
     private Game game;
     private GameConsole gConsole;
+    private JPanel mazeSettings;
+    private GridBagConstraints c;
+    private JToggleButton erase;
+    private JToggleButton wall;
+    private JToggleButton dragon;
+    private JToggleButton hero;
+    private JToggleButton sword;
+    private JToggleButton shield;
+    private JToggleButton dart;
+    private JToggleButton exit;
+    private ButtonGroup elements;
+    private JButton confirmButton;
+    private JButton cancelButton;
 
     public EditorWindow() {
         mazeSize = 11;
@@ -22,6 +35,7 @@ public class EditorWindow extends JFrame {
         setTitle("Editor");
         getContentPane().setPreferredSize(new Dimension(900, 500));
         initializeMazePreferences();
+        addMazePreferences();
         pack();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height
@@ -36,8 +50,8 @@ public class EditorWindow extends JFrame {
     }
 
     public void initializeMazePreferences() {
-        JPanel mazeSettings = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        mazeSettings = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         dimensionSlider = new JSlider();
         dimensionSlider.setMinorTickSpacing(2);
         dimensionSlider.setPaintLabels(true);
@@ -47,6 +61,59 @@ public class EditorWindow extends JFrame {
         dimensionSlider.setMaximum(55);
         dimensionSlider.setMinimum(5);
         dimensionSlider.setValue(mazeSize);
+
+        String[] type = {"Static", "Roam",
+                "Roam and Sleep"};
+        typeSelector = new JComboBox<Object>(type);
+        typeSelector.setSelectedIndex(0);
+
+        erase = new JToggleButton("Erase");
+        wall = new JToggleButton("Wall");
+        dragon = new JToggleButton("Dragon");
+        hero = new JToggleButton("Hero");
+        sword = new JToggleButton("Sword");
+        shield = new JToggleButton("Shield");
+        dart = new JToggleButton("Dart");
+        exit = new JToggleButton("Exit");
+        elements = new ButtonGroup();
+
+
+        confirmButton = new JButton("Confirm");
+        confirmButton.addActionListener(e -> {
+            String message = "Do you want to create a game with this map?";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
+
+            if (option == JOptionPane.YES_OPTION) {
+
+                int sizeLabirinth = dimensionSlider.getValue();
+                String type_dragons = typeSelector.getName();
+                if (type_dragons == "Static") {
+                    typeDragons = 1;
+                } else if (type_dragons == "Roam") {
+                    typeDragons = 2;
+                } else if (type_dragons == "Roam and Sleep") {
+                    typeDragons = 3;
+                }
+
+                setVisible(false);
+
+            } else if (option == JOptionPane.NO_OPTION) {
+                setVisible(false);
+            }
+        });
+
+        cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(e -> {
+            String message = "Do you want to cancel the operation? Your progress will not be saved!";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
+            if (option == JOptionPane.YES_OPTION) {
+                setVisible(false);
+            }
+        });
+    }
+
+    public void addMazePreferences() {
+
         c.insets = new Insets(20, 20, 0, 20);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
@@ -66,25 +133,6 @@ public class EditorWindow extends JFrame {
 
         mazeSettings.add(Box.createRigidArea(new Dimension(0, 25)), c);
         mazeSettings.add(typeSelector, c);
-
-        JToggleButton erase = new JToggleButton("Erase");
-        JToggleButton wall = new JToggleButton("Wall");
-        JToggleButton dragon = new JToggleButton("Dragon");
-        JToggleButton hero = new JToggleButton("Hero");
-        JToggleButton sword = new JToggleButton("Sword");
-        JToggleButton shield = new JToggleButton("Shield");
-        JToggleButton dart = new JToggleButton("Dart");
-        JToggleButton exit = new JToggleButton("Exit");
-        ButtonGroup elements = new ButtonGroup();
-
-        elements.add(erase);
-        elements.add(wall);
-        elements.add(dragon);
-        elements.add(hero);
-        elements.add(sword);
-        elements.add(shield);
-        elements.add(dart);
-        elements.add(exit);
 
         mazeSettings.add(Box.createRigidArea(new Dimension(0, 25)), c);
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -128,38 +176,6 @@ public class EditorWindow extends JFrame {
         c.gridy = GridBagConstraints.RELATIVE;
         mazeSettings.add(exit, c);
 
-        JButton confirmButton = new JButton("Confirm");
-        confirmButton.addActionListener(e -> {
-            String message = "Do you want to create a game with this map?";
-            int option = JOptionPane.showConfirmDialog(rootPane, message);
-
-            if (option == JOptionPane.YES_OPTION) {
-
-                int sizeLabirinth = dimensionSlider.getValue();
-                String type_dragons = typeSelector.getName();
-                if (type_dragons == "Static") {
-                    typeDragons = 1;
-                } else if (type_dragons == "Roam") {
-                    typeDragons = 2;
-                } else if (type_dragons == "Roam and Sleep") {
-                    typeDragons = 3;
-                }
-
-                setVisible(false);
-
-            } else if (option == JOptionPane.NO_OPTION) {
-                setVisible(false);
-            }
-        });
-
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> {
-            String message = "Do you want to cancel the operation? Your progress will not be saved!";
-            int option = JOptionPane.showConfirmDialog(rootPane, message);
-            if (option == JOptionPane.YES_OPTION) {
-                setVisible(false);
-            }
-        });
 
         mazeSettings.add(Box.createRigidArea(new Dimension(0, 50)), c);
         c.insets = new Insets(0, 20, 20, 20);

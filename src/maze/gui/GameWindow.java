@@ -71,15 +71,11 @@ public class GameWindow extends JFrame {
                     setSize(642, 598);
                     getContentPane().add(gameConsole);
 
-                    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-                    setLocation(dim.width / 2 - getSize().width / 2, dim.height
-                            / 2 - getSize().height / 2);
-
                     gameConsole.startNewGame(options.getSizeLabirinth(), options.getSizeLabirinth(), options
                                     .getNumberDragons(),
                             options.getTypeDragons());
                 }
-                gameConsole.requestFocus();
+                gameConsole.requestFocusInWindow();
             }
         });
 
@@ -94,7 +90,7 @@ public class GameWindow extends JFrame {
                 if (option == JOptionPane.YES_OPTION) {
                     editor.startOption();
                 }
-                gameConsole.requestFocus();
+                gameConsole.requestFocusInWindow();
             }
         });
 
@@ -105,6 +101,7 @@ public class GameWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 options.startOption();
+                gameConsole.requestFocusInWindow();
             }
         });
 
@@ -114,7 +111,7 @@ public class GameWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                gameConsole.requestFocus();
+                gameConsole.requestFocusInWindow();
             }
         });
 
@@ -147,7 +144,7 @@ public class GameWindow extends JFrame {
     }
 
     public void startGameFrame() {
-        setSize(500, 500);
+        setSize(642, 597);
 
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(size.width / 2 - getSize().width / 2, size.height / 2

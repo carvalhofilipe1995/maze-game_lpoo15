@@ -5,10 +5,7 @@ import maze.logic.Game;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +26,15 @@ public class GameConsole extends JPanel implements ActionListener {
     private BufferedImage background;
     private boolean showBackground = true, editorMode;
     private Game game;
+    private int elementID;
 
     // Load information
 
     public GameConsole(boolean editor) {
         editorMode = editor;
+        elementID = -1;
         addKeyListener(new KeyBoard());
+        addMouseListener(new Mouse());
         setFocusable(true);
         setDoubleBuffered(true);
 
@@ -58,7 +58,9 @@ public class GameConsole extends JPanel implements ActionListener {
 
     public void initGame() {
         // showBackground = false;
+        setVisible(true);
         requestFocus();
+        repaint();
     }
 
     public void loadImages() {
@@ -131,7 +133,6 @@ public class GameConsole extends JPanel implements ActionListener {
 
         cellWidth = this.getWidth() / this.game.getMaze().getWidth();
         cellHeight = (int) (cellWidth / (131.0 / 101.0));
-
         int temp = (int) (81.0 * cellHeight / 131.0);
 
         if (this.getHeight() < temp * game.getMaze().getHeight()) {
@@ -163,6 +164,47 @@ public class GameConsole extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+    }
+
+    Point findCellinMaze(Point p) {
+        int i = 0, j = 0;
+        for (i = 0; i < game.getMaze().getWidth(); i++) {
+            for (j = 0; j < game.getMaze().getHeight(); j++) {
+                cellWidth = this.getWidth() / this.game.getMaze().getWidth();
+                cellHeight = (int) (cellWidth / (131.0 / 101.0));
+                int temp = (int) (81.0 * cellHeight / 131.0);
+
+                if (this.getHeight() < temp * game.getMaze().getHeight()) {
+                    cellHeight = this.getHeight() / game.getMaze().getHeight();
+                    cellHeight += 81.0 * cellHeight / 131.0;
+                    cellWidth = (int) (cellHeight * 101.0 / 131.0);
+                }
+
+                int yCorrection = (int) (-50.0 * cellHeight / 131.0);
+
+                int dstX = i * cellWidth;
+
+                int dstY = j * (yCorrection + cellHeight);
+
+                if (p.x > dstX && p.x < dstX + cellWidth && p.y > dstY && p.y < dstY + cellHeight)
+                    break;
+            }
+        }
+        return new Point(i, j);
+    }
+
+    void editCell(Point p, String id) {
+        if (id.equals(" ")) {
+            eraseCell(p);
+        } else {
+            game.getMaze().setMaze(p, id);
+        }
+    }
+
+    void eraseCell(Point p) {
+        //if()
+        game.getMaze().setMaze(p, " ");
+
     }
 
     private class KeyBoard extends KeyAdapter {
@@ -230,6 +272,43 @@ public class GameConsole extends JPanel implements ActionListener {
                     }
                 }
                 repaint();
+            }
+        }
+    }
+
+    private class Mouse extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (editorMode) {
+                int key = e.getButton();
+                Point p = e.getPoint();
+                if (key == MouseEvent.BUTTON1) {
+                    switch (elementID) {
+                        case 0:
+                            editCell(findCellinMaze(p), "S");
+                            break;
+                        case 1:
+                            editCell(findCellinMaze(p), "D");
+                            break;
+                        case 2:
+                            editCell(findCellinMaze(p), "H");
+                            break;
+                        case 3:
+                            editCell(findCellinMaze(p), "/");
+                            break;
+                        case 4:
+                            editCell(findCellinMaze(p), "e");
+                            break;
+                        case 5:
+                            editCell(findCellinMaze(p), "*");
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (e.getButton() == MouseEvent.BUTTON2) {
+                    eraseCell(findCellinMaze(p));
+                }
+
             }
         }
     }
