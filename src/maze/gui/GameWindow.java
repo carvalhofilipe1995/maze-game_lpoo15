@@ -1,21 +1,11 @@
 package maze.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
+import maze.logic.Game;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import maze.logic.Game;
 
 
 /*
@@ -24,136 +14,146 @@ import maze.logic.Game;
 
 public class GameWindow extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	
-	private GameConsole gameConsole;
+    private static final long serialVersionUID = 1L;
 
-	private JButton newGame;
-	private JButton createGame;
-	private JButton quitGame;
-	private JButton gameOptions;
-	private JButton SaveAndLoad;
+    private Game game;
 
-	private JPanel panelButtonsUp;
-	private JPanel panelButtonsDown;
-	
-	private OptionsWindow options;
+    private JButton newGame;
+    private JButton createGame;
+    private JButton quitGame;
+    private JButton gameOptions;
+    private JButton SaveAndLoad;
 
-	public GameWindow() {
-		
-		setTitle("The Labirinth");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+    private JPanel panelButtonsUp;
+    private JPanel panelButtonsDown;
 
-		panelButtonsUp = new JPanel();
-		panelButtonsDown = new JPanel();
-		gameConsole = new GameConsole();
-		options = new OptionsWindow();
+    private GameConsole gameConsole;
+    private OptionsWindow options;
+    private EditorWindow editor;
 
-		initializeButtons();
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		addButtonsLayout();
+    public GameWindow() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        }
+        setTitle("The Labirinth");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-	}
+        panelButtonsUp = new JPanel();
+        panelButtonsDown = new JPanel();
+        gameConsole = new GameConsole(false);
+        options = new OptionsWindow();
+        editor = new EditorWindow();
 
-	public void initializeButtons() {
+        initializeButtons();
+        getContentPane().setLayout(new BorderLayout(0, 0));
 
-		// new game button
-		newGame = new JButton("New game");
-		newGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = "Do you want to play a new game?";
-				int option = JOptionPane.showConfirmDialog(rootPane, message);
+        addButtonsLayout();
 
-				if (option == JOptionPane.YES_OPTION) {
-					setSize(642, 598);
-					getContentPane().add(gameConsole);
+    }
 
-					Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-					setLocation(dim.width / 2 - getSize().width / 2, dim.height
-							/ 2 - getSize().height / 2);
+    public static void main(String args[]) {
+        GameWindow g = new GameWindow();
+        g.startGameFrame();
+    }
 
-					gameConsole.startNewGame(options.getSizeLabirinth(),options.getSizeLabirinth(), options.getNumberDragons(), options.getTypeDragons());
-										
-				}
-			}
-		});
+    public void initializeButtons() {
 
-		// create game button
-		createGame = new JButton("Create game");
-		createGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = "Do you want to create a new game?";
-				int option = JOptionPane.showConfirmDialog(rootPane, message);
+        // new game button
+        newGame = new JButton("New game");
+        newGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = "Do you want to play a new game?";
+                int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-				if (option == JOptionPane.YES_OPTION) {
+                if (option == JOptionPane.YES_OPTION) {
+                    setSize(642, 598);
+                    getContentPane().add(gameConsole);
 
-				}
-			}
-		});
+                    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                    setLocation(dim.width / 2 - getSize().width / 2, dim.height
+                            / 2 - getSize().height / 2);
 
-		// gameOptions button
+                    gameConsole.startNewGame(options.getSizeLabirinth(), options.getSizeLabirinth(), options
+                                    .getNumberDragons(),
+                            options.getTypeDragons());
+                }
+                gameConsole.requestFocus();
+            }
+        });
 
-		gameOptions = new JButton("Options");
-		gameOptions.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				options.startOption();
-			}
-		});
+        // edit button
+        createGame = new JButton("Editor");
+        createGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = "Do you want to create a new game?";
+                int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-		// SaveAndLoad button
-		SaveAndLoad = new JButton("Save/Load");
-		SaveAndLoad.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+                if (option == JOptionPane.YES_OPTION) {
+                    editor.startOption();
+                }
+                gameConsole.requestFocus();
+            }
+        });
 
-			}
-		});
+        // gameOptions button
 
-		// quit game button
-		quitGame = new JButton("Quit game");
-		quitGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = "Do you want to leave the game?";
-				int option = JOptionPane.showConfirmDialog(rootPane, message);
-				if (option == JOptionPane.YES_OPTION) {
-					System.exit(0);
-				}
-			}
-		});
+        gameOptions = new JButton("Options");
+        gameOptions.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                options.startOption();
+            }
+        });
 
-	}
+        // SaveAndLoad button
+        SaveAndLoad = new JButton("Save/Load");
+        SaveAndLoad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-	public void addButtonsLayout() {
+                gameConsole.requestFocus();
+            }
+        });
 
-		panelButtonsUp.add(newGame);
-		panelButtonsUp.add(createGame);
-		panelButtonsUp.add(SaveAndLoad);
-		getContentPane().add(panelButtonsUp, BorderLayout.PAGE_START);
+        // quit game button
+        quitGame = new JButton("Quit game");
+        quitGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = "Do you want to leave the game?";
+                int option = JOptionPane.showConfirmDialog(rootPane, message);
+                if (option == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
 
-		panelButtonsDown.add(quitGame);
-		panelButtonsDown.add(gameOptions);
-		getContentPane().add(panelButtonsDown, BorderLayout.PAGE_END);
+    }
 
-	}
+    public void addButtonsLayout() {
 
-	public void startGameFrame() {
-		setSize(600, 600);
+        panelButtonsUp.add(newGame);
+        panelButtonsUp.add(createGame);
+        panelButtonsUp.add(SaveAndLoad);
+        getContentPane().add(panelButtonsUp, BorderLayout.PAGE_START);
 
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(size.width / 2 - getSize().width / 2, size.height / 2
-				- getSize().height / 2);
+        panelButtonsDown.add(quitGame);
+        panelButtonsDown.add(gameOptions);
+        getContentPane().add(panelButtonsDown, BorderLayout.PAGE_END);
 
-		setVisible(true);
-	}
+    }
 
-	public static void main(String args[]) {
-		GameWindow g = new GameWindow();
-		g.startGameFrame();
-	}
+    public void startGameFrame() {
+        setSize(500, 500);
 
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(size.width / 2 - getSize().width / 2, size.height / 2
+                - getSize().height / 2);
+
+        setVisible(true);
+    }
 
 }

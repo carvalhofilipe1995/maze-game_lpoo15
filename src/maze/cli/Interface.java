@@ -31,6 +31,7 @@ public class Interface {
             System.out.print("\n\tOption -> ");
             maze_preferences = Integer.parseInt(scan.next());
         } catch (Exception e) {
+            System.out.println("Invalid input.");
         }
 
         if (maze_preferences == 2) {
@@ -40,12 +41,14 @@ public class Interface {
                         .print("\n---> Maze size (odd value between 5 and 99):  ");
                 size = Integer.parseInt(scan.next());
             } catch (Exception e) {
+                System.out.println("Invalid input.");
             }
 
             while (number_dragons == -1) try {
                 System.out.print("\n---> Number of dragons:   ");
                 number_dragons = Integer.parseInt(scan.next());
             } catch (Exception e) {
+                System.out.println("Invalid input.");
             }
 
             System.out.print("\n\n---> Type of dragons: \n"
@@ -56,6 +59,7 @@ public class Interface {
                 System.out.print("\n\tOption -> ");
                 type_dragons = Integer.parseInt(scan.next());
             } catch (Exception e) {
+                System.out.println("Invalid input.");
             }
         }
 
@@ -118,13 +122,14 @@ public class Interface {
             try {
                 option = Integer.parseInt(scan.next());
             } catch (Exception e) {
+                System.out.println("Invalid input.");
             }
             switch (option) {
                 case 1:
                     done = true;
                     createGame();
                     updateGame();
-                    if (game.getHero().isAlive() == true) {
+                    if (game.getHero().isAlive()) {
                         System.out.print("\n"
                                 + "-------- Congratulations! You Win! ----------\n\n");
                     } else {

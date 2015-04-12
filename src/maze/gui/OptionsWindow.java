@@ -1,22 +1,11 @@
 package maze.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
+import maze.logic.Game;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.SwingConstants;
-
-import maze.logic.Game;
 
 public class OptionsWindow extends JDialog {
 
@@ -99,8 +88,8 @@ public class OptionsWindow extends JDialog {
 		JLabel lblDragons = new JLabel("Type of dragons");
 		lblDragons.setHorizontalAlignment(SwingConstants.LEFT);
 		dragons_type.add(lblDragons);
-		String[] type = { "Static", "Roam",
-				"Roam and Sleep" };
+		String[] type = {"Static", "Room",
+				"Room and Sleep"};
 		typeSelector = new JComboBox<Object>(type);
 		typeSelector.setSelectedIndex(0);
 		dragons_type.add(typeSelector);
@@ -139,17 +128,14 @@ public class OptionsWindow extends JDialog {
 				}
 			}
 		});
-		
-		cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new ActionListener() {		
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = "Do you want to cancel the operation?";
-				int option = JOptionPane.showConfirmDialog(rootPane, message);
-				
-				if(option == JOptionPane.YES_OPTION){
-					setVisible(false);
-				}
+
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(e -> {
+			String message = "Do you want to cancel the operation?";
+			int option = JOptionPane.showConfirmDialog(rootPane, message);
+
+			if (option == JOptionPane.YES_OPTION) {
+				setVisible(false);
 			}
 		});
 		
@@ -179,3 +165,4 @@ public class OptionsWindow extends JDialog {
 	
 
 }
+//TODO old values for options sliders

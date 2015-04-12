@@ -38,17 +38,10 @@ public abstract class Cell {
     }
 
     public boolean isNextTo(Cell c) {
-        if (this.coord.x == c.getCoord().x - 1 && this.coord.y == c.getCoord().y) {
-            return true;
-        } else if (this.coord.x == c.getCoord().x + 1 && this.coord.y == c.getCoord().y) {
-            return true;
-        } else if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y - 1) {
-            return true;
-        } else if (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y + 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.coord.x == c.getCoord().x - 1 && this.coord.y == c.getCoord().y)
+                || (this.coord.x == c.getCoord().x + 1 && this.coord.y == c.getCoord().y)
+                || (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y - 1)
+                || (this.coord.x == c.getCoord().x && this.coord.y == c.getCoord().y + 1);
     }
 
     public boolean isInRange(Cell c, int range) {

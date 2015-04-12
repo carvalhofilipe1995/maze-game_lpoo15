@@ -4,6 +4,7 @@ import maze.logic.MazeGenerator;
 import org.junit.Test;
 
 import java.awt.*;
+import java.util.Objects;
 import java.util.Random;
 
 import static org.junit.Assert.assertNotNull;
@@ -11,8 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 public class MazeGeneratorTest {
 
-    // a) the maze boundaries must have exactly one exit and everything else walls
-    // b) the exist cannot be a corner
     private boolean checkBoundaries(MazeGenerator maze) {
         int countExit = 0;
         int n = maze.getHeight();
@@ -33,17 +32,13 @@ public class MazeGeneratorTest {
     }
 
 
-    // d) there cannot exist 2x2 (or greater) squares with blanks only
-    // e) there cannot exit 2x2 (or greater) squares with blanks in one diagonal and walls in the other
-    // d) there cannot exist 3x3 (or greater) squares with walls only
-
     private boolean hasSquare(MazeGenerator maze, String[][] square) {
         for (int i = 0; i < maze.getHeight() - square.length; i++)
             for (int j = 0; j < maze.getWidth() - square.length; j++) {
                 boolean match = true;
                 for (int x = 0; x < square.length; x++)
                     for (int y = 0; y < square.length; y++) {
-                        if (maze.getMaze()[i + x][j + y] != square[x][y])
+                        if (!Objects.equals(maze.getMaze()[i + x][j + y], square[x][y]))
                             match = false;
                     }
                 if (match)
@@ -52,16 +47,15 @@ public class MazeGeneratorTest {
         return false;
     }
 
-    // c) there must exist a path between any blank cell and the maze exit
     private boolean checkExitReachable(MazeGenerator maze) {
         Point p = maze.getExit();
         String[][] m = deepClone(maze.getMaze());
         m[p.x][p.y] = " ";
         visit(m, p.x, p.y);
 
-        for (int i = 0; i < m.length; i++) {
+        for (String[] aM : m) {
             for (int j = 0; j < m.length; j++) {
-                if (!m[i][j].equals("X") && !m[i][j].equals("V")) {
+                if (!aM[j].equals("X") && !aM[j].equals("V")) {
                     return false;
                 }
             }
@@ -69,8 +63,6 @@ public class MazeGeneratorTest {
         return true;
     }
 
-    // auxiliary method used by checkExitReachable
-    // marks a cell as visited (V) and proceeds recursively to its neighbors
     private void visit(String[][] m, int i, int j) {
         if (i < 0 || i >= m.length || j < 0 || j >= m.length)
             return;
@@ -83,8 +75,6 @@ public class MazeGeneratorTest {
         visit(m, i, j + 1);
     }
 
-    // Auxiliary method used by checkExitReachable.
-    // Gets a deep clone of a matrix.
     private String[][] deepClone(String[][] m) {
         String[][] c = m.clone();
         for (int i = 0; i < m.length; i++)
@@ -95,7 +85,7 @@ public class MazeGeneratorTest {
     @Test
     public void testRandomMazeGenerator() throws Exception {
         int numMazes = 1000;
-        int maxSize = 101; // can change to any odd number >= 5
+        int maxSize = 101;
 
         String[][] badWalls = {
                 {"X", "X", "X"},
@@ -112,7 +102,7 @@ public class MazeGeneratorTest {
                 {"X", " "}};
         Random rand = new Random();
         for (int i = 0; i < numMazes; i++) {
-            int size = maxSize == 5 ? 5 : 5 + 2 * rand.nextInt((maxSize - 5) / 2);
+            int size = 5 + 2 * rand.nextInt((maxSize - 5) / 2);
             MazeGenerator generator = new MazeGenerator(size, size);
             generator.createMaze();
             assertTrue("Invalid maze boundaries in maze:\n" + generator, checkBoundaries(generator));
