@@ -3,7 +3,10 @@ package maze.gui;
 import maze.logic.Game;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EditorWindow extends JFrame {
 
@@ -79,37 +82,46 @@ public class EditorWindow extends JFrame {
 
 
         confirmButton = new JButton("Confirm");
-        confirmButton.addActionListener(e -> {
-            String message = "Do you want to create a game with this map?";
-            int option = JOptionPane.showConfirmDialog(rootPane, message);
+        confirmButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = "Do you want to create a game with this map?";
+	            int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-            if (option == JOptionPane.YES_OPTION) {
+	            if (option == JOptionPane.YES_OPTION) {
 
-                int sizeLabirinth = dimensionSlider.getValue();
-                String type_dragons = typeSelector.getName();
-                if (type_dragons == "Static") {
-                    typeDragons = 1;
-                } else if (type_dragons == "Roam") {
-                    typeDragons = 2;
-                } else if (type_dragons == "Roam and Sleep") {
-                    typeDragons = 3;
-                }
+	                int sizeLabirinth = dimensionSlider.getValue();
+	                String type_dragons = typeSelector.getName();
+	                if (type_dragons == "Static") {
+	                    typeDragons = 1;
+	                } else if (type_dragons == "Roam") {
+	                    typeDragons = 2;
+	                } else if (type_dragons == "Roam and Sleep") {
+	                    typeDragons = 3;
+	                }
 
-                setVisible(false);
+	                setVisible(false);
 
-            } else if (option == JOptionPane.NO_OPTION) {
-                setVisible(false);
-            }
-        });
+	            } else if (option == JOptionPane.NO_OPTION) {
+	                setVisible(false);
+	            }
+				
+			}
+		});
 
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> {
-            String message = "Do you want to cancel the operation? Your progress will not be saved!";
-            int option = JOptionPane.showConfirmDialog(rootPane, message);
-            if (option == JOptionPane.YES_OPTION) {
-                setVisible(false);
-            }
-        });
+        cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = "Do you want to cancel the operation? Your progress will not be saved!";
+	            int option = JOptionPane.showConfirmDialog(rootPane, message);
+	            if (option == JOptionPane.YES_OPTION) {
+	                setVisible(false);
+	            }
+			}
+		});
     }
 
     public void addMazePreferences() {

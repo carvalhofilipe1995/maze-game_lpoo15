@@ -30,6 +30,7 @@ public class GameWindow extends JFrame {
     private GameConsole gameConsole;
     private OptionsWindow options;
     private EditorWindow editor;
+    private SaveAndLoad save_load;
 
     public GameWindow() {
         try {
@@ -44,6 +45,7 @@ public class GameWindow extends JFrame {
         gameConsole = new GameConsole(false);
         options = new OptionsWindow();
         editor = new EditorWindow();
+        save_load = new SaveAndLoad(gameConsole);
 
         initializeButtons();
         getContentPane().setLayout(new BorderLayout(0, 0));
@@ -110,7 +112,8 @@ public class GameWindow extends JFrame {
         SaveAndLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            	save_load.updateGamesSaved();
+            	save_load.startWindow();
                 gameConsole.requestFocusInWindow();
             }
         });

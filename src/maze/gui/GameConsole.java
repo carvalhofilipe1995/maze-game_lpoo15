@@ -24,7 +24,7 @@ public class GameConsole extends JPanel implements ActionListener {
     private BufferedImage wall;
     private BufferedImage exit;
     private BufferedImage background;
-    private boolean showBackground = true, editorMode;
+    private boolean activeGame = false, editorMode;
     private Game game;
     private int elementID;
 
@@ -39,6 +39,10 @@ public class GameConsole extends JPanel implements ActionListener {
         setDoubleBuffered(true);
 
         loadImages();
+    }
+    
+    public void loadGame(Game g){
+    	this.game = g;
     }
 
     public void startNewGame(int width, int heigth, int numberDragons,
@@ -57,7 +61,7 @@ public class GameConsole extends JPanel implements ActionListener {
     }
 
     public void initGame() {
-        // showBackground = false;
+    	activeGame = false;
         setVisible(true);
         requestFocus();
         repaint();
@@ -311,5 +315,13 @@ public class GameConsole extends JPanel implements ActionListener {
 
             }
         }
+    }
+    
+    public boolean activeGame(){
+    	return this.activeGame;
+    }
+    
+    public Game getGame(){
+    	return this.game;
     }
 }
