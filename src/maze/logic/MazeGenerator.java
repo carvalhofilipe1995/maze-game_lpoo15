@@ -20,7 +20,11 @@ public class MazeGenerator  implements Serializable {
     protected Point guideCell;
     protected Point exit;
 
-    // constructor
+    /**
+     * MazeGenerator Constructor
+     * @param height
+     * @param width
+     */
     public MazeGenerator(int height, int width) {
         this.height = height;
         this.width = width;
@@ -31,60 +35,90 @@ public class MazeGenerator  implements Serializable {
         this.guideCell = new Point();
         this.exit = new Point();
     }
-    //protected Hero hero;
-    //protected Sword sword;
-    //protected ArrayList<Dragon> dragons;
 
 
+    /**
+     * 
+     * @return maze height
+     */
     public int getHeight() {
         return this.height;
     }
-
+    
+    /**
+     * 
+     * @return maze width
+     */
     public int getWidth() {
         return this.width;
     }
 
+    
+    /**
+     * 
+     * @return the labyrinth
+     */
     public String[][] getMaze() {
         return lab;
     }
 
+    /**
+     * 
+     * @param x
+     * @param y
+     * @return the cell with this coordinates
+     */
     public String getCell(int x, int y) {
         return lab[y][x];
     }
 
-	/* public Hero getHero() {
-        return hero;
-	}*/
-
-	/*public Sword getSword() {
-        return sword;
-	}*/
-
+    /**
+     * 
+     * @return the exit of the maze
+     */
     public Point getExit() {
         return exit;
     }
 
+    /**
+     * Change the exit coordinates
+     * @param x
+     * @param y
+     */
     public void setExit(int x, int y) {
         this.exit = new Point(x, y);
     }
 
+    /**
+     * Put the cell with fire
+     * @param p
+     */
     public void setCellAsFire(Point p) {
         setMaze(p, "^");
     }
 
-	/*public ArrayList<Dragon> getDragons() {
-        return dragons;
-	}*/
-
+    /**
+     * Change maze in this point 
+     * @param p
+     * @param change
+     */
     public void setMaze(Point p, String change) {
         this.lab[(int) p.getY()][(int) p.getX()] = change;
     }
 
+    /**
+     * Set cell as visited
+     * @param p
+     * @param change
+     */
     public void setVisitedCells(Point p, String change) {
         this.visitedCells[(int) p.getY()][(int) p.getX()] = change;
     }
 
-    // Create Maze
+   /**
+    * 
+    * @return 0 if maze was created
+    */
     public int createMaze() {
         Random rand = new Random();
 
@@ -171,7 +205,9 @@ public class MazeGenerator  implements Serializable {
         return 0;
     }
 
-    // Done
+    /**
+     * Generates randomly the exit
+     */
     public void generateExit() {
         Random rand = new Random();
 
@@ -203,7 +239,9 @@ public class MazeGenerator  implements Serializable {
         lab[(int) exit.getY()][(int) exit.getX()] = "S";
     }
 
-    // Done
+    /**
+     * Start the guide cell
+     */
     public void startGuideCell() {
         Point nearExit = new Point((int) exit.getX(), (int) exit.getY());
 
@@ -222,7 +260,10 @@ public class MazeGenerator  implements Serializable {
         guideCell.setLocation(guideCellX, guideCellY);
     }
 
-    // Done
+    /**
+     * 
+     * @return true is move is valid
+     */
     public boolean checkMovements() {
         for (int i = 0; i < 4; i++) {
             if (checkIfMoveIsValid(i)) {
@@ -232,7 +273,11 @@ public class MazeGenerator  implements Serializable {
         return false;
     }
 
-    // Done
+    /**
+     * 
+     * @param direction
+     * @return true if cell has been visited
+     */
     public boolean cellHasBeenVisited(int direction) {
         switch (direction) {
             case 0: // up
@@ -261,7 +306,11 @@ public class MazeGenerator  implements Serializable {
         return false;
     }
 
-    // Done
+    /**
+     * 
+     * @param direction
+     * @return true if direction is valid
+     */
     public boolean checkIfMoveIsValid(int direction) {
         switch (direction) {
             case 0: // up
@@ -290,7 +339,10 @@ public class MazeGenerator  implements Serializable {
         return !cellHasBeenVisited(direction);
     }
 
-    // Done
+   /**
+    * Update the guide cell
+    * @param direction
+    */
     public void updateGuideCell(int direction) {
         switch (direction) {
             case 0: // up
@@ -311,16 +363,6 @@ public class MazeGenerator  implements Serializable {
                 break;
             default:
                 break;
-        }
-    }
-
-    // Print map
-    public void printLabirinto() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(this.lab[i][j] + ' ');
-            }
-            System.out.print("\n");
         }
     }
 

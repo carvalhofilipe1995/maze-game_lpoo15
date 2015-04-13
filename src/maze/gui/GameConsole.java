@@ -22,6 +22,7 @@ public class GameConsole extends JPanel implements ActionListener {
     private BufferedImage shield;
     private BufferedImage dragonAwake;
     private BufferedImage dragonSleep;
+    private BufferedImage fire;
     private BufferedImage path;
     private BufferedImage wall;
     private BufferedImage exit;
@@ -96,7 +97,8 @@ public class GameConsole extends JPanel implements ActionListener {
 
             dragonAwake = ImageIO.read(new File("images/dragonAwake.jpg"));
             dragonSleep = ImageIO.read(new File("images/dragonSleep.jpg"));
-
+            fire = ImageIO.read(new File("images/fire.jpg"));
+            
             path = ImageIO.read(new File("images/path.jpg"));
             wall = ImageIO.read(new File("images/wall.jpg"));
             exit = ImageIO.read(new File("images/closedExit.jpg"));
@@ -139,6 +141,8 @@ public class GameConsole extends JPanel implements ActionListener {
                     drawCellsMaze(g2d, sword, i, j);
                 else if (Objects.equals(game.getMaze().getCell(i, j), "e"))
                     drawCellsMaze(g2d, shield, i, j);
+                else if(Objects.equals(game.getMaze().getCell(i, j), "^"))
+                	 drawCellsMaze(g2d, fire, i, j);
 
     }
 

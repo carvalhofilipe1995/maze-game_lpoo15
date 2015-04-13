@@ -7,6 +7,12 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 
+/**
+ * 		GameState Class
+ * 
+ * @author luiscarvalho
+ *
+ */
 public class Game implements Serializable {
 
     /**
@@ -24,8 +30,10 @@ public class Game implements Serializable {
     private boolean GameState;
     private boolean exitOpen;
     private Vector<Point> emptyCells;
-    //private Vector<Point> doubleCells;
-
+    
+    /**
+     *  Default Constructor Game
+     */
     public Game() {
 
         maze = new MazeGenerator(17, 17);
@@ -38,13 +46,20 @@ public class Game implements Serializable {
         exitOpen = false;
 
         emptyCells = new Vector<>(0, 1);
-        //doubleCells = new Vector<>(0, 1);
+        
 
         dragons = new ArrayList<>();
         dragons.add(new Dragon(0, 0, true));
         dragons.add(new Dragon(0, 0, true));
     }
-
+    
+    /**
+     * 
+     * @param height
+     * @param width
+     * @param number_dragons
+     * @param type_dragons
+     */
     public Game(int height, int width, int number_dragons, int type_dragons) {
 
         maze = new MazeGenerator(height, width);
@@ -59,7 +74,6 @@ public class Game implements Serializable {
         exitOpen = false;
 
         emptyCells = new Vector<>(0, 1);
-        // doubleCells = new Vector<Point>(0, 1);
 
         dragons = new ArrayList<>();
 
@@ -68,37 +82,70 @@ public class Game implements Serializable {
         }
 
     }
-
+    
+    /**
+     * 
+     * @return dragons in the game
+     */
     public ArrayList<Dragon> getDragons() {
         return dragons;
     }
-
+    
+    /**
+     * 
+     * @return game state
+     */
     public boolean getGameState() {
         return GameState;
     }
-
+    
+    /**
+     * 
+     * @return hero
+     */
     public Hero getHero() {
         return hero;
     }
-
+    
+    /**
+     * 
+     * @return maze
+     */
     public MazeGenerator getMaze() {
         return maze;
     }
 
+    /**
+     * 
+     * @return sword
+     */
     public Sword getSword() {
         return sword;
     }
 
+    
+    /**
+     * 
+     * @return shield
+     */
     public Shield getShield() {
         return shield;
     }
 
+    /**
+     * 
+     * @return true if exit is open
+     */
     public boolean isExitOpen() {
         return exitOpen;
     }
 
     // Update Game State
-
+    
+    /**
+     * Update the game state
+     * @param direction
+     */
     public void updateGameState(String direction) {
 
         boolean swordVisible = true;
@@ -144,6 +191,11 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     * 
+     * @return true if a dragon is near to hero else false
+     */
 
     public boolean checkIfDragonIsNear() {
         for (Dragon i : dragons) {
@@ -156,6 +208,11 @@ public class Game implements Serializable {
     }
 
     // Hero Movements
+    
+    /**
+     * Check if hero can move
+     * @param direction
+     */
 
     public void heroMove(String direction) {
         switch (direction) {
@@ -218,6 +275,10 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     *  Check if hero can move to left
+     */
 
     public void checkMoveLeft() {
         if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
@@ -295,6 +356,10 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     * check if hero can move to right
+     */
 
     public void checkMoveRight() {
         if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
@@ -368,6 +433,10 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     * check if hero can move up
+     */
 
     public void checkMoveUp() {
         if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero.getCoord()
@@ -444,6 +513,10 @@ public class Game implements Serializable {
                     hero.getId());
         }
     }
+    
+    /**
+     * check if hero can move down
+     */
 
     public void checkMoveDown() {
         if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero.getCoord()
@@ -524,6 +597,10 @@ public class Game implements Serializable {
 
     // Dragons Movements
 
+    /**
+     * Put cells on fire
+     * @param dragon
+     */
     public void dragonsFire(Dragon d) {
 
         // put fire on the right
@@ -584,6 +661,10 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     * delete dragons fire
+     */
 
     public void deleteDragonFire() {
 
@@ -599,6 +680,11 @@ public class Game implements Serializable {
 
     }
 
+    /**
+     * Move dragons
+     * @param i
+     * @param direction
+     */
     public void moveDragons(Dragon i, int direction) {
 
         switch (direction) {
@@ -779,6 +865,10 @@ public class Game implements Serializable {
 
     // Populate lab with the elements
 
+    /**
+     * Put the elements in the maze
+     * @param number_dragons
+     */
     public void initializePositionsElements(int number_dragons) {
 
         maze.createMaze();
@@ -791,6 +881,9 @@ public class Game implements Serializable {
 
     }
 
+    /**
+     * Put darts in the maze
+     */
     public void choosePositionDarts() {
         int number_darts = random.nextInt(maze.getHeight() / 2);
 
@@ -806,6 +899,9 @@ public class Game implements Serializable {
 
     }
 
+    /**
+     * Check which cells are empty
+     */
     public void checkEmptyCells() {
         for (int i = 0; i < maze.height; i++)
             for (int j = 0; j < maze.width; j++)
@@ -814,6 +910,9 @@ public class Game implements Serializable {
 
     }
 
+    /**
+     * Put hero in the maze
+     */
     public void choosePositionHero() {
         int position = random.nextInt(emptyCells.size());
         hero.setCoord(emptyCells.elementAt(position).x,
@@ -823,6 +922,10 @@ public class Game implements Serializable {
                         emptyCells.get(position).y), "H");
         emptyCells.remove(position);
     }
+    
+    /**
+     * Put sword in the maze
+     */
 
     public void choosePositionSword() {
         int position = random.nextInt(emptyCells.size());
@@ -833,6 +936,9 @@ public class Game implements Serializable {
         emptyCells.remove(position);
     }
 
+    /**
+     * Put shield in the maze
+     */
     public void choosePositionShield() {
         int position = random.nextInt(emptyCells.size());
         shield.setCoord(emptyCells.get(position).x, emptyCells.get(position).y);
@@ -841,6 +947,11 @@ public class Game implements Serializable {
                         emptyCells.get(position).y), "e");
         emptyCells.remove(position);
     }
+    
+    /**
+     * Put dragons in the maze
+     * @param number_dragons
+     */
 
     public void choosePositionDragons(int number_dragons) {
         for (int i = 0; i < number_dragons; i++) {
@@ -851,16 +962,6 @@ public class Game implements Serializable {
                     new Point(emptyCells.get(position).x, emptyCells
                             .get(position).y), dragons.get(i).getType());
             emptyCells.remove(position);
-        }
-    }
-
-    public void printGame() {
-        for (int i = 0; i < maze.height; i++) {
-            System.out.print("  ");
-            for (int j = 0; j < maze.width; j++) {
-                System.out.print(maze.getCell(j, i) + ' ');
-            }
-            System.out.print("\n");
         }
     }
 
