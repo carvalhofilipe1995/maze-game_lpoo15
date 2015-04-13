@@ -1,8 +1,18 @@
 package maze.logic;
 
 import java.io.Serializable;
+<<<<<<< Updated upstream
 
 public class Hero extends Cell implements Serializable {
+=======
+/**
+ * 
+ * 	Hero class
+ * @author luiscarvalho
+ *
+ */
+public class Hero extends Cell  implements Serializable {
+>>>>>>> Stashed changes
 
     /**
      *
@@ -14,6 +24,7 @@ public class Hero extends Cell implements Serializable {
     private boolean victory;
     private int darts;
 
+<<<<<<< Updated upstream
     /**
      * Hero Consctructor
      *
@@ -28,6 +39,21 @@ public class Hero extends Cell implements Serializable {
         this.victory = false;
         this.darts = 0;
     }
+=======
+	/**
+	 * Hero Constructor
+	 * @param x hero coordinate x
+	 * @param y hero coordinate y
+	 */
+	public Hero(int x, int y) {
+		super(x, y, "H", true);
+		this.alive = true;
+		this.sword = false;
+		this.shield = false;
+		this.victory = false;
+		this.darts = 0;
+	}
+>>>>>>> Stashed changes
 
     /**
      * @return true if hero is alive

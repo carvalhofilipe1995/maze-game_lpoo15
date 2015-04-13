@@ -8,7 +8,13 @@ import java.util.Random;
 import java.util.Vector;
 
 /**
+<<<<<<< Updated upstream
  * GameState Class
+=======
+ * 	GameState Class
+ * 
+ * @author luiscarvalho
+>>>>>>> Stashed changes
  *
  * @author luiscarvalho
  */
@@ -135,7 +141,10 @@ public class Game implements Serializable {
 
     /**
      * Update the game state
+<<<<<<< Updated upstream
      *
+=======
+>>>>>>> Stashed changes
      * @param direction hero direction
      */
     public void updateGameState(String direction) {
@@ -215,7 +224,10 @@ public class Game implements Serializable {
 
     /**
      * Check if hero can move
+<<<<<<< Updated upstream
      *
+=======
+>>>>>>> Stashed changes
      * @param direction hero direction
      */
 
@@ -644,8 +656,11 @@ public class Game implements Serializable {
 
     /**
      * Put cells on fire
+<<<<<<< Updated upstream
      *
-     * @param Dragon dragon
+=======
+>>>>>>> Stashed changes
+     * @param dragon dragon
      */
     public void dragonsFire(Dragon d) {
 
@@ -728,9 +743,14 @@ public class Game implements Serializable {
 
     /**
      * Move dragons
+<<<<<<< Updated upstream
      *
      * @param i
      * @param direction
+=======
+     * @param i  dragon
+     * @param direction dragon direction
+>>>>>>> Stashed changes
      */
     public void moveDragons(Dragon i, int direction) {
 
@@ -805,6 +825,10 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     *  Make dragons sleep
+     */
 
     public void sleepDragons() {
 
@@ -818,6 +842,11 @@ public class Game implements Serializable {
         }
 
     }
+    
+    /**
+     * Check darts direction
+     * @param direction darts direction
+     */
 
     public void checkDartsDirection(String direction) {
 
@@ -910,12 +939,16 @@ public class Game implements Serializable {
 
     }
 
-    // Populate lab with the elements
+   
 
     /**
      * Put the elements in the maze
+<<<<<<< Updated upstream
      *
      * @param number_dragons
+=======
+     * @param number_dragons number dragons to populate
+>>>>>>> Stashed changes
      */
     public void initializePositionsElements(int number_dragons) {
 
@@ -998,8 +1031,12 @@ public class Game implements Serializable {
 
     /**
      * Put dragons in the maze
+<<<<<<< Updated upstream
      *
      * @param number_dragons
+=======
+     * @param number_dragons dragons to populate
+>>>>>>> Stashed changes
      */
 
     public void choosePositionDragons(int number_dragons) {

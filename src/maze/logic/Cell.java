@@ -3,6 +3,13 @@ package maze.logic;
 import java.awt.*;
 import java.io.Serializable;
 
+
+/**
+ * 	Class for all elements in the maze
+ * 
+ * @author luiscarvalho
+ *
+ */
 public abstract class Cell implements Serializable {
     /**
      *
@@ -14,11 +21,18 @@ public abstract class Cell implements Serializable {
 
     /**
      * Constructor Cell
+<<<<<<< Updated upstream
      *
      * @param x
      * @param y
      * @param id
      * @param visible
+=======
+     * @param x coordinate x
+     * @param y coordinate y
+     * @param id type
+     * @param visible visibility
+>>>>>>> Stashed changes
      */
     public Cell(int x, int y, String id, boolean visible) {
         this.coord = new Point(x, y);
@@ -65,16 +79,26 @@ public abstract class Cell implements Serializable {
 
     /**
      * Set coordinates of the cell
+<<<<<<< Updated upstream
      *
      * @param x
      * @param y
+=======
+     * @param x coordinate x
+     * @param y coordinate y
+>>>>>>> Stashed changes
      */
     public void setCoord(int x, int y) {
         this.coord.setLocation(x, y);
     }
 
     /**
+<<<<<<< Updated upstream
      * @param c
+=======
+     * 
+     * @param c cell to check if is next
+>>>>>>> Stashed changes
      * @return true if a cell is next to other cell
      */
     public boolean isNextTo(Cell c) {
@@ -85,8 +109,14 @@ public abstract class Cell implements Serializable {
     }
 
     /**
+<<<<<<< Updated upstream
      * @param c
      * @param range
+=======
+     * 
+     * @param c cell to check
+     * @param range range
+>>>>>>> Stashed changes
      * @return true if a cell is in the same range than other
      */
     public boolean isInRange(Cell c, int range) {
