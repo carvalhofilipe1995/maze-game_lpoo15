@@ -41,7 +41,7 @@ public class GameWindow extends JFrame {
         panelButtonsUp = new JPanel();
         panelButtonsDown = new JPanel();
         gameConsole = new GameConsole(false);
-        options = new OptionsWindow();
+        options = new OptionsWindow(this, "Options", true);
         editor = new EditorWindow(this, "Editor", true);
         save_load = new SaveAndLoad(gameConsole);
 
@@ -73,6 +73,7 @@ public class GameWindow extends JFrame {
                                 .getNumberDragons(),
                         options.getTypeDragons());
             }
+            repaint();
             gameConsole.requestFocusInWindow();
         });
 
@@ -90,6 +91,7 @@ public class GameWindow extends JFrame {
                     gameConsole.loadGame(editor.getGame());
                 }
             }
+            repaint();
             gameConsole.requestFocusInWindow();
         });
 

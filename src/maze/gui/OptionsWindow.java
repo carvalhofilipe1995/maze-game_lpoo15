@@ -1,22 +1,11 @@
 package maze.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
+import maze.logic.Game;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.SwingConstants;
-
-import maze.logic.Game;
 
 public class OptionsWindow extends JDialog {
 
@@ -33,10 +22,11 @@ public class OptionsWindow extends JDialog {
 	private int number_dragons = 2;
 	private int typeDragons = 1;
 
-	
-	public OptionsWindow() {
 
-		setTitle("Options");
+	public OptionsWindow(JFrame parent, String name, boolean modal) {
+
+		super(parent, name, modal);
+
 		getContentPane().setLayout(new GridLayout(11, 1));
 		
 		initializeMazePreferences();
