@@ -449,7 +449,7 @@ public class GameConsole extends JPanel implements ActionListener {
                         default:
                             break;
                     }
-                } else if (e.getButton() == MouseEvent.BUTTON2) {
+                } else if (e.getButton() == MouseEvent.BUTTON3) {
                     eraseCell(findCellInMaze(p));
                 }
                 repaint();

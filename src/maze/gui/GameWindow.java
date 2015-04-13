@@ -97,6 +97,9 @@ public class GameWindow extends JFrame {
                         setSize(642, 598);
                         getContentPane().add(gameConsole);
                         gameConsole.loadGame(editor.getGame());
+                        save_load.updateGamesSaved();
+                        save_load.startWindow();
+                        gameConsole.requestFocusInWindow();
                     }
                 }
                 repaint();

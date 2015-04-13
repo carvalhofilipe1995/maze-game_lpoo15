@@ -173,15 +173,21 @@ public class EditorWindow extends JDialog {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String message = "Do you want to create a game with this map?";
-                int option = JOptionPane.showConfirmDialog(rootPane, message);
+                game = gConsole.getGame();
+                if (mapReadyToPlay()) {
+                    String message = "Do you want to create a game with this map? Your map will also be saved for " +
+                            "future use.";
+                    int option = JOptionPane.showConfirmDialog(rootPane, message);
+                    if (option == JOptionPane.YES_OPTION) {
 
-                if (option == JOptionPane.YES_OPTION) {
-                    game = gConsole.getGame();
-                    setVisible(false);
-                } else if (option == JOptionPane.NO_OPTION) {
-                    game = null;
-                    setVisible(false);
+                        setVisible(false);
+                    } else if (option == JOptionPane.NO_OPTION) {
+                        game = null;
+                        setVisible(false);
+                    }
+                } else {
+                    String message = "Your map does not have all the elements necessary!";
+                    JOptionPane.showMessageDialog(rootPane, message);
                 }
             }
         });
@@ -300,5 +306,11 @@ public class EditorWindow extends JDialog {
                 }
             }
         }
+    }
+
+    public boolean mapReadyToPlay() {
+        return (!game.getHero().getCoord().equals(new Point(0, 0))
+                && !game.getSword().getCoord().equals(new Point(0, 0))
+                && !game.getMaze().getExit().equals(new Point(0, 0)));
     }
 }
