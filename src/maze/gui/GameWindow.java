@@ -55,11 +55,6 @@ public class GameWindow extends JFrame {
 
 	}
 
-	public static void main(String args[]) {
-		GameWindow g = new GameWindow();
-		g.startGameFrame();
-	}
-
 	public void initializeButtons() {
 
 		// new game button
