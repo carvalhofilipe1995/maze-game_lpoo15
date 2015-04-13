@@ -61,7 +61,7 @@ public class GameConsole extends JPanel implements ActionListener {
     }
 
     public void initGame() {
-    	activeGame = false;
+    	activeGame = true;
         setVisible(true);
         requestFocus();
         repaint();

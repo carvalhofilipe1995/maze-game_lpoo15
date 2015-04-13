@@ -162,6 +162,7 @@ public class SaveAndLoad extends JDialog {
 		try {
 			FileInputStream fin = new FileInputStream(GamesFolder + "/"
 					+ gamesList.getSelectedItem());
+			
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			Game game = (Game) ois.readObject();
 			ois.close();
