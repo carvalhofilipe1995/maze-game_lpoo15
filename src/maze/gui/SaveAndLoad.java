@@ -3,7 +3,10 @@ package maze.gui;
 import maze.logic.Game;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 public class SaveAndLoad extends JDialog {
@@ -12,6 +15,7 @@ public class SaveAndLoad extends JDialog {
     private GameConsole gamePanel;
     private JTextField nameFileToSave;
     private List gamesList;
+    private boolean loadCall = false;
 
     private String GamesFolder = "Saved";
 
@@ -57,7 +61,13 @@ public class SaveAndLoad extends JDialog {
 
         JButton saveButton = new JButton("Save");
         SaveGameInputPanel.add(saveButton);
-        saveButton.addActionListener(e -> SaveGame());
+        saveButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SaveGame();		
+			}
+		});
 
     }
 
@@ -79,12 +89,16 @@ public class SaveAndLoad extends JDialog {
 
         JButton loadButton = new JButton("Load");
         ListPanel.add(loadButton);
-        loadButton.addActionListener(arg0 -> {
-            Game loadedGame = LoadGame();
+        loadButton.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Game loadedGame = LoadGame();
 
-            if (loadedGame != null)
-                gamePanel.loadGame(loadedGame);
-        });
+	            if (loadedGame != null)
+	                gamePanel.loadGame(loadedGame);
+				
+			}
+		});
 
     }
 
@@ -126,6 +140,8 @@ public class SaveAndLoad extends JDialog {
     }
 
     public Game LoadGame() {
+    	
+    	loadCall = true;
 
         if (gamesList.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null,
@@ -159,6 +175,10 @@ public class SaveAndLoad extends JDialog {
         gamesList.removeAll();
         for (File file : folder.listFiles())
             gamesList.add(file.getName());
+    }
+    
+    public boolean getLoadCall(){
+    	return this.loadCall;
     }
 
 }

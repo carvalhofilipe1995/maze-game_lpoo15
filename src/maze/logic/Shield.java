@@ -1,7 +1,13 @@
 package maze.logic;
 
-public class Shield extends Cell {
-    private boolean picked;
+import java.io.Serializable;
+
+public class Shield extends Cell  implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private boolean picked;
 
     public Shield(int x, int y) {
         super(x, y, "e", true);

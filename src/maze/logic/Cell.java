@@ -1,9 +1,14 @@
 package maze.logic;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Cell {
-    protected Point coord;
+public abstract class Cell implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected Point coord;
     protected String id;
     protected boolean visible;
 

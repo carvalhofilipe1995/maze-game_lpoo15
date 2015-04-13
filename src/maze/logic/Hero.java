@@ -1,7 +1,13 @@
 package maze.logic;
 
-public class Hero extends Cell {
+import java.io.Serializable;
 
+public class Hero extends Cell  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean alive;
 	private boolean sword;
 	private boolean shield;

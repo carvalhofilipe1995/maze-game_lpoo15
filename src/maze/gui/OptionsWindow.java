@@ -18,6 +18,18 @@ public class OptionsWindow extends JDialog {
 	private JButton confirmButton;
 	private JButton cancelButton;
 	
+	private JTextField upControl;
+	private JTextField downControl;
+	private JTextField rightControl;
+	private JTextField leftControl;
+	private JTextField sendDartsC;
+	
+	private String upC = "";
+	private String downC = " ";
+	private String rightC = "";
+	private String leftC = "";
+	private String dartsC = "";
+	
 	private int size_labirinth = 11;
 	private int number_dragons = 2;
 	private int typeDragons = 1;
@@ -31,6 +43,7 @@ public class OptionsWindow extends JDialog {
 		
 		initializeMazePreferences();
 		initializeDragonsPreferences();
+		initializeKeysPreferences();
 		initializeButtons();
 
 		
@@ -56,7 +69,7 @@ public class OptionsWindow extends JDialog {
 		dimensionSlider.setPaintTicks(true);
 		dimensionSlider.setSnapToTicks(true);
 		dimensionSlider.setMajorTickSpacing(10);
-		dimensionSlider.setMaximum(55);
+		dimensionSlider.setMaximum(25);
 		dimensionSlider.setMinimum(5);
 		dimensionSlider.setValue(11);
 		mazeDimensions.add(dimensionSlider);
@@ -79,7 +92,7 @@ public class OptionsWindow extends JDialog {
 		num_Dragons.setPaintLabels(true);
 		num_Dragons.setMinorTickSpacing(5);
 		num_Dragons.setMajorTickSpacing(10);
-		num_Dragons.setMaximum(40);
+		num_Dragons.setMaximum(20);
 		num_Dragons.setMinimum(0);
 		num_Dragons.setValue(5);
 		
@@ -96,6 +109,57 @@ public class OptionsWindow extends JDialog {
 		dragons_type.add(typeSelector);
 
 	}
+	
+	
+	public void initializeKeysPreferences(){
+		
+		JLabel GameControls = new JLabel("Controls");
+		GameControls.setHorizontalAlignment(SwingConstants.CENTER);
+		getContentPane().add(GameControls);
+
+		JPanel upAndDown= new JPanel();
+		getContentPane().add(upAndDown);
+		upAndDown.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JLabel Up = new JLabel("Up");
+		upAndDown.add(Up);
+		upControl = new JTextField();
+		upControl.setText(upC);
+		upAndDown.add(upControl);
+		upControl.setColumns(10);
+		JLabel Down = new JLabel("Down");
+		upAndDown.add(Down);
+		downControl = new JTextField();
+		upAndDown.add(downControl);
+		downControl.setText(downC);
+		downControl.setColumns(10);
+
+		JPanel leftAndRight = new JPanel();
+		getContentPane().add(leftAndRight);
+		JLabel Left = new JLabel("Left");
+		leftAndRight.add(Left);
+		leftControl = new JTextField();
+		leftControl.setText(leftC);
+		leftControl.setColumns(10);
+		leftAndRight.add(leftControl);
+		JLabel lblRight = new JLabel("Right");
+		leftAndRight.add(lblRight);
+		rightControl = new JTextField();
+		leftAndRight.add(rightControl);
+		rightControl.setText(rightC);
+		rightControl.setColumns(10);
+
+		JPanel sendDartsControl = new JPanel();
+		getContentPane().add(sendDartsControl);
+		JLabel SendDarts = new JLabel("Send Darts");
+		sendDartsControl.add(SendDarts);
+		sendDartsC = new JTextField();
+		sendDartsC.setText(dartsC);
+		sendDartsC.setColumns(10);
+		sendDartsControl.add(sendDartsC);
+		
+	}
+	
+	
 	
 	public void initializeButtons(){
 		
@@ -164,6 +228,26 @@ public class OptionsWindow extends JDialog {
 	
 	public void startOption(){
 		setVisible(true);
+	}
+	
+	public String getUpKey(){
+		return upC;
+	}
+	
+	public String getDownKey(){
+		return downC;
+	}
+	
+	public String getRightKey(){
+		return rightC;
+	}
+	
+	public String getLeftKey(){
+		return leftC;
+	}
+	
+	public String getDartsKey(){
+		return dartsC;
 	}
 
 	

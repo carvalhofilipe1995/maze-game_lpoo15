@@ -1,9 +1,14 @@
 package maze.logic;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Dragon extends Cell {
+public class Dragon extends Cell implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean alive;
 	private boolean awake;
 	private Vector<Point> cellsOnFire;

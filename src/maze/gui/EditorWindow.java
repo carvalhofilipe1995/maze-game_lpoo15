@@ -3,7 +3,12 @@ package maze.gui;
 import maze.logic.Game;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -68,19 +73,28 @@ public class EditorWindow extends JDialog {
         dimensionSlider.setMaximum(55);
         dimensionSlider.setMinimum(5);
         dimensionSlider.setValue(mazeSize);
-        dimensionSlider.addChangeListener(e -> {
-            if (dimensionSlider.getValue() != mazeSize) {
-                mazeSize = dimensionSlider.getValue();
-                startOption();
-            }
-        });
+        dimensionSlider.addChangeListener(new ChangeListener() {	
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				 if (dimensionSlider.getValue() != mazeSize) {
+		                mazeSize = dimensionSlider.getValue();
+		                startOption();
+		            }
+				
+			}
+		});
 
         String[] type = {"Static", "Roam",
                 "Roam and Sleep"};
         typeSelector = new JComboBox<Object>(type);
         typeSelector.setSelectedIndex(0);
-        typeSelector.addActionListener(e ->
-                gConsole.setDragonType(typeSelector.getSelectedIndex() + 1));
+        typeSelector.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 gConsole.setDragonType(typeSelector.getSelectedIndex() + 1);
+				
+			}
+		});
 
         erase = new JToggleButton("Erase");
         erase.addMouseListener(new MouseAdapter() {
@@ -157,29 +171,35 @@ public class EditorWindow extends JDialog {
         elements.add(exit);
 
         confirmButton = new JButton("Confirm");
-        confirmButton.addActionListener(e -> {
-            String message = "Do you want to create a game with this map?";
-            int option = JOptionPane.showConfirmDialog(rootPane, message);
+        confirmButton.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				  String message = "Do you want to create a game with this map?";
+		            int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-            if (option == JOptionPane.YES_OPTION) {
-                game = gConsole.getGame();
-                setVisible(false);
-            } else if (option == JOptionPane.NO_OPTION) {
-                game = null;
-                setVisible(false);
-            }
-
-        });
+		            if (option == JOptionPane.YES_OPTION) {
+		                game = gConsole.getGame();
+		                setVisible(false);
+		            } else if (option == JOptionPane.NO_OPTION) {
+		                game = null;
+		                setVisible(false);
+		            }
+			}
+		});
 
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> {
-            String message = "Do you want to cancel the operation? Your progress will not be saved!";
-            int option = JOptionPane.showConfirmDialog(rootPane, message);
-            if (option == JOptionPane.YES_OPTION) {
-                game = null;
-                setVisible(false);
-            }
-        });
+        cancelButton.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = "Do you want to cancel the operation? Your progress will not be saved!";
+	            int option = JOptionPane.showConfirmDialog(rootPane, message);
+	            if (option == JOptionPane.YES_OPTION) {
+	                game = null;
+	                setVisible(false);
+	            }
+				
+			}
+		});
     }
 
     public void addMazePreferences() {

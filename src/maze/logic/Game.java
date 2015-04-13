@@ -1,14 +1,19 @@
 package maze.logic;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 
-public class Game {
+public class Game implements Serializable {
 
-    Random random = new Random();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Random random = new Random();
     private ArrayList<Dragon> dragons;
     private MazeGenerator maze;
     private Hero hero;
@@ -684,7 +689,7 @@ public class Game {
     public void checkDartsDirection(String direction) {
 
         switch (direction) {
-            case "a":
+            case "d":
                 for (int i = hero.getCoord().x; i >= 0; i--) {
                     if (Objects.equals(maze.getCell(i, hero.getCoord().y), "X")) {
                         break;
@@ -703,7 +708,7 @@ public class Game {
                     }
                 }
                 break;
-            case "d":
+            case "a":
                 for (int i = hero.getCoord().x; i < maze.getHeight(); i++) {
                     if (Objects.equals(maze.getCell(i, hero.getCoord().y), "X")) {
                         break;

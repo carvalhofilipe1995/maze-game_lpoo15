@@ -28,7 +28,13 @@ public class GameConsole extends JPanel implements ActionListener {
     private boolean activeGame = false, editorMode;
     private Game game;
     private int elementID, dragonType;
-
+    
+    private int upKey = KeyEvent.VK_W;
+	private int leftKey = KeyEvent.VK_A;
+	private int rightKey = KeyEvent.VK_D;
+	private int downKey = KeyEvent.VK_S;
+	private int sendDartsKey = KeyEvent.VK_E;
+	
     public GameConsole(boolean editor) {
         editorMode = editor;
         elementID = -1;
@@ -41,9 +47,11 @@ public class GameConsole extends JPanel implements ActionListener {
     }
 
     public void loadGame(Game g) {
-        this.game = g;
+        this.game = g;  
+        initGame();
+        
     }
-
+    
     public void setDragonType(int dragonType) {
         this.dragonType = dragonType;
     }
@@ -58,7 +66,7 @@ public class GameConsole extends JPanel implements ActionListener {
 
         game = new Game(height, width, numberDragons, typeDragons);
         game.initializePositionsElements(numberDragons);
-
+        
         initGame();
     }
 
@@ -278,15 +286,15 @@ public class GameConsole extends JPanel implements ActionListener {
             if (!editorMode) {
                 int key = e.getKeyCode();
 
-                if (key == KeyEvent.VK_RIGHT)
+                if (key == KeyEvent.VK_RIGHT || key == rightKey)
                     game.updateGameState("d");
-                else if (key == KeyEvent.VK_LEFT)
+                else if (key == KeyEvent.VK_LEFT || key == leftKey)
                     game.updateGameState("a");
-                else if (key == KeyEvent.VK_UP)
+                else if (key == KeyEvent.VK_UP || key == upKey)
                     game.updateGameState("w");
-                else if (key == KeyEvent.VK_DOWN)
+                else if (key == KeyEvent.VK_DOWN || key == downKey)
                     game.updateGameState("s");
-                else if (key == KeyEvent.VK_SPACE) {
+                else if (key == KeyEvent.VK_SPACE || key == sendDartsKey) {
 
                     if (game.getHero().hasDarts()) {
                         String[] options = {"UP", "DOWN", "RIGHT", "LEFT"};
@@ -382,4 +390,39 @@ public class GameConsole extends JPanel implements ActionListener {
             }
         }
     }
+    
+    public int getKey(String str) {
+		str = str.toUpperCase();
+		
+		switch (str) {
+		case "A": return KeyEvent.VK_A;
+		case "B": return KeyEvent.VK_B;
+		case "C": return KeyEvent.VK_C;
+		case "D": return KeyEvent.VK_D;
+		case "E": return KeyEvent.VK_E;
+		case "F": return KeyEvent.VK_F;
+		case "G": return KeyEvent.VK_G;
+		case "H": return KeyEvent.VK_H;
+		case "I": return KeyEvent.VK_I;
+		case "J": return KeyEvent.VK_J;
+		case "K": return KeyEvent.VK_K;
+		case "L": return KeyEvent.VK_L;
+		case "M": return KeyEvent.VK_M;
+		case "N": return KeyEvent.VK_N;
+		case "O": return KeyEvent.VK_O;
+		case "P": return KeyEvent.VK_P;
+		case "Q": return KeyEvent.VK_Q;
+		case "R": return KeyEvent.VK_R;
+		case "S": return KeyEvent.VK_S;
+		case "T": return KeyEvent.VK_T;
+		case "U": return KeyEvent.VK_U;
+		case "V": return KeyEvent.VK_V;
+		case "W": return KeyEvent.VK_W;
+		case "X": return KeyEvent.VK_X;
+		case "Y": return KeyEvent.VK_Y;
+		case "Z": return KeyEvent.VK_Z;
+		}
+		
+		return 0;
+	}
 }

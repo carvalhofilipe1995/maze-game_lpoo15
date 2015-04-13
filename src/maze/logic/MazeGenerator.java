@@ -1,11 +1,16 @@
 package maze.logic;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Stack;
 
-public class MazeGenerator {
-    // camps
+public class MazeGenerator  implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// camps
     protected int height;
     protected int width;
     protected String[][] lab;
