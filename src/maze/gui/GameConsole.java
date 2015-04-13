@@ -1,5 +1,6 @@
 package maze.gui;
 
+import maze.logic.Dragon;
 import maze.logic.Game;
 
 import javax.imageio.ImageIO;
@@ -9,6 +10,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class GameConsole extends JPanel implements ActionListener {
 
@@ -23,12 +25,9 @@ public class GameConsole extends JPanel implements ActionListener {
     private BufferedImage path;
     private BufferedImage wall;
     private BufferedImage exit;
-    private BufferedImage background;
     private boolean activeGame = false, editorMode;
     private Game game;
-    private int elementID;
-
-    // Load information
+    private int elementID, dragonType;
 
     public GameConsole(boolean editor) {
         editorMode = editor;
@@ -40,16 +39,24 @@ public class GameConsole extends JPanel implements ActionListener {
 
         loadImages();
     }
-    
-    public void loadGame(Game g){
-    	this.game = g;
+
+    public void loadGame(Game g) {
+        this.game = g;
     }
 
-    public void startNewGame(int width, int heigth, int numberDragons,
+    public void setDragonType(int dragonType) {
+        this.dragonType = dragonType;
+    }
+    // Load information
+
+    public void setElementID(int elementID) {
+        this.elementID = elementID;
+    }
+
+    public void startNewGame(int width, int height, int numberDragons,
                              int typeDragons) {
 
-        game = new Game(width, heigth, numberDragons, typeDragons);
-
+        game = new Game(height, width, numberDragons, typeDragons);
         game.initializePositionsElements(numberDragons);
 
         initGame();
@@ -61,7 +68,7 @@ public class GameConsole extends JPanel implements ActionListener {
     }
 
     public void initGame() {
-    	activeGame = false;
+        activeGame = true;
         setVisible(true);
         requestFocus();
         repaint();
@@ -96,13 +103,6 @@ public class GameConsole extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // clean
         Graphics2D graphics = (Graphics2D) g;
-
-		/*
-         * if (showBackground) graphics.drawImage(background, 0, 0,
-		 * this.getWidth(), this.getHeight(), 0, 0, background.getWidth(),
-		 * background.getHeight(), null); else
-		 */
-
         drawGame(graphics);
     }
 
@@ -110,30 +110,31 @@ public class GameConsole extends JPanel implements ActionListener {
 
         for (int i = 0; i < game.getMaze().getWidth(); i++)
             for (int j = 0; j < game.getMaze().getHeight(); j++)
-                if (game.getMaze().getCell(i, j) == "X")
+                if (Objects.equals(game.getMaze().getCell(i, j), "X"))
                     drawCellsMaze(g2d, wall, i, j);
-                else if (game.getMaze().getCell(i, j) == " ")
+                else if (Objects.equals(game.getMaze().getCell(i, j), " "))
                     drawCellsMaze(g2d, path, i, j);
-                else if (game.getMaze().getCell(i, j) == "S")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "S"))
                     drawCellsMaze(g2d, exit, i, j);
-                else if (game.getMaze().getCell(i, j) == "D")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "D"))
                     drawCellsMaze(g2d, dragonAwake, i, j);
-                else if (game.getMaze().getCell(i, j) == "d")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "d"))
                     drawCellsMaze(g2d, dragonSleep, i, j);
-                else if (game.getMaze().getCell(i, j) == "H")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "H"))
                     drawCellsMaze(g2d, heroWithOutSword, i, j);
-                else if (game.getMaze().getCell(i, j) == "A")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "A"))
                     drawCellsMaze(g2d, heroWithSword, i, j);
-                else if (game.getMaze().getCell(i, j) == "*")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "*"))
                     drawCellsMaze(g2d, darts, i, j);
-                else if (game.getMaze().getCell(i, j) == "/")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "/"))
                     drawCellsMaze(g2d, sword, i, j);
-                else if (game.getMaze().getCell(i, j) == "e")
+                else if (Objects.equals(game.getMaze().getCell(i, j), "e"))
                     drawCellsMaze(g2d, shield, i, j);
 
     }
 
     public void drawCellsMaze(Graphics2D g, BufferedImage image, int i, int j) {
+        int dstX, dstY, yCorrection;
 
         cellWidth = this.getWidth() / this.game.getMaze().getWidth();
         cellHeight = (int) (cellWidth / (131.0 / 101.0));
@@ -145,11 +146,9 @@ public class GameConsole extends JPanel implements ActionListener {
             cellWidth = (int) (cellHeight * 101.0 / 131.0);
         }
 
-        int yCorrection = (int) (-50.0 * cellHeight / 131.0);
+        yCorrection = (int) (-50.0 * cellHeight / 131.0);
 
-        int dstX = i * cellWidth;
-
-        int dstY;
+        dstX = i * cellWidth;
 
         dstY = j * (yCorrection + cellHeight);
 
@@ -170,10 +169,12 @@ public class GameConsole extends JPanel implements ActionListener {
         repaint();
     }
 
-    Point findCellinMaze(Point p) {
-        int i = 0, j = 0;
+    Point findCellInMaze(Point p) {
+        int dstX, dstY, yCorrection, i, j;
+
         for (i = 0; i < game.getMaze().getWidth(); i++) {
             for (j = 0; j < game.getMaze().getHeight(); j++) {
+
                 cellWidth = this.getWidth() / this.game.getMaze().getWidth();
                 cellHeight = (int) (cellWidth / (131.0 / 101.0));
                 int temp = (int) (81.0 * cellHeight / 131.0);
@@ -184,31 +185,90 @@ public class GameConsole extends JPanel implements ActionListener {
                     cellWidth = (int) (cellHeight * 101.0 / 131.0);
                 }
 
-                int yCorrection = (int) (-50.0 * cellHeight / 131.0);
+                yCorrection = (int) (-50.0 * cellHeight / 131.0);
 
-                int dstX = i * cellWidth;
+                dstX = i * cellWidth;
 
-                int dstY = j * (yCorrection + cellHeight);
+                dstY = j * (yCorrection + cellHeight);
 
+                // centering board
+                dstX += (getWidth() - cellWidth * game.getMaze().getWidth()) / 2.0;
+                dstY += (getHeight() - (cellHeight - 0.37 * cellHeight)
+                        * game.getMaze().getHeight()) / 2.0;
                 if (p.x > dstX && p.x < dstX + cellWidth && p.y > dstY && p.y < dstY + cellHeight)
-                    break;
+                    return new Point(i, j);
+
             }
         }
-        return new Point(i, j);
+        return null;
     }
 
     void editCell(Point p, String id) {
-        if (id.equals(" ")) {
+        if (p.x > 0 && p.x < game.getMaze().getWidth() - 1 && p.y > 0 && p.y < game.getMaze().getHeight() - 1) {
             eraseCell(p);
-        } else {
+            switch (id) {
+                case "S":
+                    return;
+                case "D":
+                    game.getDragons().add(new Dragon(p.x, p.y));
+                    break;
+                case "H":
+                    eraseCell(game.getHero().getCoord());
+                    game.getHero().setCoord(p.x, p.y);
+                    break;
+                case "/":
+                    eraseCell(game.getSword().getCoord());
+                    game.getSword().setCoord(p.x, p.y);
+                    break;
+                case "e":
+                    eraseCell(game.getShield().getCoord());
+                    game.getShield().setCoord(p.x, p.y);
+                    break;
+            }
             game.getMaze().setMaze(p, id);
+        } else {
+            eraseCell(p);
+            if (id.equals("S")) {
+                eraseCell(game.getMaze().getExit());
+                game.getMaze().setExit(p.x, p.y);
+                game.getMaze().setMaze(p, id);
+            } else {
+                game.getMaze().setMaze(p, "X");
+            }
+
         }
     }
 
     void eraseCell(Point p) {
-        //if()
-        game.getMaze().setMaze(p, " ");
+        String fill;
+        if (p.x > 0 && p.x < game.getMaze().getWidth() - 1 && p.y > 0 && p.y < game.getMaze().getHeight() - 1) {
+            fill = " ";
+        } else {
+            fill = "X";
+        }
+        if (game.getMaze().getCell(p.x, p.y).equals("D")) {
+            for (int i = 0; i < game.getDragons().size(); i++)
+                game.getDragons().remove(i);
+            game.getMaze().setMaze(p, fill);
+        } else if (game.getMaze().getCell(p.x, p.y).equals("H")) {
+            game.getMaze().setMaze(p, fill);
+            game.getHero().setCoord(0, 0);
+        } else if (game.getMaze().getCell(p.x, p.y).equals("/")) {
+            game.getMaze().setMaze(p, fill);
+            game.getSword().setCoord(0, 0);
+        } else if (game.getMaze().getCell(p.x, p.y).equals("e")) {
+            game.getMaze().setMaze(p, fill);
+            game.getShield().setCoord(0, 0);
+        } else
+            game.getMaze().setMaze(p, fill);
+    }
 
+    public boolean activeGame() {
+        return this.activeGame;
+    }
+
+    public Game getGame() {
+        return this.game;
     }
 
     private class KeyBoard extends KeyAdapter {
@@ -289,39 +349,37 @@ public class GameConsole extends JPanel implements ActionListener {
                 if (key == MouseEvent.BUTTON1) {
                     switch (elementID) {
                         case 0:
-                            editCell(findCellinMaze(p), "S");
+                            eraseCell(findCellInMaze(p));
                             break;
                         case 1:
-                            editCell(findCellinMaze(p), "D");
+                            editCell(findCellInMaze(p), "X");
                             break;
                         case 2:
-                            editCell(findCellinMaze(p), "H");
+                            editCell(findCellInMaze(p), "D");
                             break;
                         case 3:
-                            editCell(findCellinMaze(p), "/");
+                            editCell(findCellInMaze(p), "H");
                             break;
                         case 4:
-                            editCell(findCellinMaze(p), "e");
+                            editCell(findCellInMaze(p), "/");
                             break;
                         case 5:
-                            editCell(findCellinMaze(p), "*");
+                            editCell(findCellInMaze(p), "e");
+                            break;
+                        case 6:
+                            editCell(findCellInMaze(p), "*");
+                            break;
+                        case 7:
+                            editCell(findCellInMaze(p), "S");
                             break;
                         default:
                             break;
                     }
                 } else if (e.getButton() == MouseEvent.BUTTON2) {
-                    eraseCell(findCellinMaze(p));
+                    eraseCell(findCellInMaze(p));
                 }
-
+                repaint();
             }
         }
-    }
-    
-    public boolean activeGame(){
-    	return this.activeGame;
-    }
-    
-    public Game getGame(){
-    	return this.game;
     }
 }

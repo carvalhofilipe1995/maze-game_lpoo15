@@ -4,8 +4,6 @@ import maze.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 /*
@@ -44,7 +42,7 @@ public class GameWindow extends JFrame {
         panelButtonsDown = new JPanel();
         gameConsole = new GameConsole(false);
         options = new OptionsWindow();
-        editor = new EditorWindow();
+        editor = new EditorWindow(this, "Editor", true);
         save_load = new SaveAndLoad(gameConsole);
 
         initializeButtons();
@@ -63,71 +61,61 @@ public class GameWindow extends JFrame {
 
         // new game button
         newGame = new JButton("New game");
-        newGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String message = "Do you want to play a new game?";
-                int option = JOptionPane.showConfirmDialog(rootPane, message);
+        newGame.addActionListener(e -> {
+            String message = "Do you want to play a new game?";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-                if (option == JOptionPane.YES_OPTION) {
-                    setSize(642, 598);
-                    getContentPane().add(gameConsole);
+            if (option == JOptionPane.YES_OPTION) {
+                setSize(642, 598);
+                getContentPane().add(gameConsole);
 
-                    gameConsole.startNewGame(options.getSizeLabirinth(), options.getSizeLabirinth(), options
-                                    .getNumberDragons(),
-                            options.getTypeDragons());
-                }
-                gameConsole.requestFocusInWindow();
+                gameConsole.startNewGame(options.getSizeLabirinth(), options.getSizeLabirinth(), options
+                                .getNumberDragons(),
+                        options.getTypeDragons());
             }
+            gameConsole.requestFocusInWindow();
         });
 
         // edit button
         createGame = new JButton("Editor");
-        createGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String message = "Do you want to create a new game?";
-                int option = JOptionPane.showConfirmDialog(rootPane, message);
+        createGame.addActionListener(e -> {
+            String message = "Do you want to create a new game?";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-                if (option == JOptionPane.YES_OPTION) {
-                    editor.startOption();
+            if (option == JOptionPane.YES_OPTION) {
+                editor.startOption();
+                if (editor.getGame() != null) {
+                    setSize(642, 598);
+                    getContentPane().add(gameConsole);
+                    gameConsole.loadGame(editor.getGame());
                 }
-                gameConsole.requestFocusInWindow();
             }
+            gameConsole.requestFocusInWindow();
         });
 
         // gameOptions button
 
         gameOptions = new JButton("Options");
-        gameOptions.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                options.startOption();
-                gameConsole.requestFocusInWindow();
-            }
+        gameOptions.addActionListener(e -> {
+            options.startOption();
+            gameConsole.requestFocusInWindow();
         });
 
         // SaveAndLoad button
         SaveAndLoad = new JButton("Save/Load");
-        SaveAndLoad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	save_load.updateGamesSaved();
-            	save_load.startWindow();
-                gameConsole.requestFocusInWindow();
-            }
+        SaveAndLoad.addActionListener(e -> {
+            save_load.updateGamesSaved();
+            save_load.startWindow();
+            gameConsole.requestFocusInWindow();
         });
 
         // quit game button
         quitGame = new JButton("Quit game");
-        quitGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String message = "Do you want to leave the game?";
-                int option = JOptionPane.showConfirmDialog(rootPane, message);
-                if (option == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
+        quitGame.addActionListener(e -> {
+            String message = "Do you want to leave the game?";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
+            if (option == JOptionPane.YES_OPTION) {
+                System.exit(0);
             }
         });
 

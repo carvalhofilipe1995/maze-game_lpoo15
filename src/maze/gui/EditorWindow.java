@@ -3,12 +3,11 @@ package maze.gui;
 import maze.logic.Game;
 
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class EditorWindow extends JFrame {
+public class EditorWindow extends JDialog {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +31,8 @@ public class EditorWindow extends JFrame {
     private JButton confirmButton;
     private JButton cancelButton;
 
-    public EditorWindow() {
+    public EditorWindow(JFrame parent, String name, boolean modal) {
+        super(parent, name, modal);
         mazeSize = 11;
         gConsole = new GameConsole(true);
         setTitle("Editor");
@@ -43,6 +43,10 @@ public class EditorWindow extends JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height
                 / 2 - this.getSize().height / 2);
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public void initializeGameArea() {
@@ -64,64 +68,118 @@ public class EditorWindow extends JFrame {
         dimensionSlider.setMaximum(55);
         dimensionSlider.setMinimum(5);
         dimensionSlider.setValue(mazeSize);
+        dimensionSlider.addChangeListener(e -> {
+            if (dimensionSlider.getValue() != mazeSize) {
+                mazeSize = dimensionSlider.getValue();
+                startOption();
+            }
+        });
 
         String[] type = {"Static", "Roam",
                 "Roam and Sleep"};
         typeSelector = new JComboBox<Object>(type);
         typeSelector.setSelectedIndex(0);
+        typeSelector.addActionListener(e ->
+                gConsole.setDragonType(typeSelector.getSelectedIndex() + 1));
 
         erase = new JToggleButton("Erase");
+        erase.addMouseListener(new MouseAdapter() {
+                                   @Override
+                                   public void mousePressed(MouseEvent e) {
+                                       gConsole.setElementID(0);
+                                   }
+                               }
+        );
         wall = new JToggleButton("Wall");
+        wall.addMouseListener(new MouseAdapter() {
+                                  @Override
+                                  public void mousePressed(MouseEvent e) {
+                                      gConsole.setElementID(1);
+                                  }
+                              }
+        );
         dragon = new JToggleButton("Dragon");
+        dragon.addMouseListener(new MouseAdapter() {
+                                    @Override
+                                    public void mousePressed(MouseEvent e) {
+                                        gConsole.setElementID(2);
+                                    }
+                                }
+        );
         hero = new JToggleButton("Hero");
+        hero.addMouseListener(new MouseAdapter() {
+                                  @Override
+                                  public void mousePressed(MouseEvent e) {
+                                      gConsole.setElementID(3);
+                                  }
+                              }
+        );
         sword = new JToggleButton("Sword");
+        sword.addMouseListener(new MouseAdapter() {
+                                   @Override
+                                   public void mousePressed(MouseEvent e) {
+                                       gConsole.setElementID(4);
+                                   }
+                               }
+        );
         shield = new JToggleButton("Shield");
+        shield.addMouseListener(new MouseAdapter() {
+                                    @Override
+                                    public void mousePressed(MouseEvent e) {
+                                        gConsole.setElementID(5);
+                                    }
+                                }
+        );
         dart = new JToggleButton("Dart");
+        dart.addMouseListener(new MouseAdapter() {
+                                  @Override
+                                  public void mousePressed(MouseEvent e) {
+                                      gConsole.setElementID(6);
+                                  }
+                              }
+        );
         exit = new JToggleButton("Exit");
+        exit.addMouseListener(new MouseAdapter() {
+                                  @Override
+                                  public void mousePressed(MouseEvent e) {
+                                      gConsole.setElementID(7);
+                                  }
+                              }
+        );
         elements = new ButtonGroup();
-
+        elements.add(erase);
+        elements.add(wall);
+        elements.add(dragon);
+        elements.add(hero);
+        elements.add(sword);
+        elements.add(shield);
+        elements.add(dart);
+        elements.add(exit);
 
         confirmButton = new JButton("Confirm");
-        confirmButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = "Do you want to create a game with this map?";
-	            int option = JOptionPane.showConfirmDialog(rootPane, message);
+        confirmButton.addActionListener(e -> {
+            String message = "Do you want to create a game with this map?";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
 
-	            if (option == JOptionPane.YES_OPTION) {
+            if (option == JOptionPane.YES_OPTION) {
+                game = gConsole.getGame();
+                setVisible(false);
+            } else if (option == JOptionPane.NO_OPTION) {
+                game = null;
+                setVisible(false);
+            }
 
-	                int sizeLabirinth = dimensionSlider.getValue();
-	                String type_dragons = typeSelector.getName();
-	                if (type_dragons == "Static") {
-	                    typeDragons = 1;
-	                } else if (type_dragons == "Roam") {
-	                    typeDragons = 2;
-	                } else if (type_dragons == "Roam and Sleep") {
-	                    typeDragons = 3;
-	                }
-
-	                setVisible(false);
-
-	            } else if (option == JOptionPane.NO_OPTION) {
-	                setVisible(false);
-	            }
-				
-			}
-		});
+        });
 
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String message = "Do you want to cancel the operation? Your progress will not be saved!";
-	            int option = JOptionPane.showConfirmDialog(rootPane, message);
-	            if (option == JOptionPane.YES_OPTION) {
-	                setVisible(false);
-	            }
-			}
-		});
+        cancelButton.addActionListener(e -> {
+            String message = "Do you want to cancel the operation? Your progress will not be saved!";
+            int option = JOptionPane.showConfirmDialog(rootPane, message);
+            if (option == JOptionPane.YES_OPTION) {
+                game = null;
+                setVisible(false);
+            }
+        });
     }
 
     public void addMazePreferences() {
@@ -209,6 +267,7 @@ public class EditorWindow extends JFrame {
         generateEmptyMaze();
         initializeGameArea();
         setVisible(true);
+        repaint();
     }
 
     public void generateEmptyMaze() {

@@ -14,14 +14,14 @@ public class Dragon extends Cell {
 		super(x, y, "D", true);
 		this.alive = true;
 		this.awake = true;
-		cellsOnFire = new Vector<Point>(0, 1);
+		cellsOnFire = new Vector<>(0, 1);
 	}
 
 	public Dragon(int x, int y, boolean awake) {
 		super(x, y, "D", true);
 		this.alive = true;
 		this.awake = awake;
-		cellsOnFire = new Vector<Point>(0, 1);
+		cellsOnFire = new Vector<>(0, 1);
 	}
 
 	public String getType() {

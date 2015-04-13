@@ -53,10 +53,10 @@ public class Game {
 
         exitOpen = false;
 
-        emptyCells = new Vector<Point>(0, 1);
+        emptyCells = new Vector<>(0, 1);
         // doubleCells = new Vector<Point>(0, 1);
 
-        dragons = new ArrayList<Dragon>();
+        dragons = new ArrayList<>();
 
         for (int i = 0; i < number_dragons; i++) {
             dragons.add(new Dragon(0, 0, true));
@@ -104,7 +104,7 @@ public class Game {
         heroMove(direction);
 
         if (maze.getCell(hero.getCoord().x, hero.getCoord().y).equals("S")
-                && exitOpen == true) {
+                && exitOpen) {
             GameState = true;
             return;
         }
@@ -142,7 +142,7 @@ public class Game {
 
     public boolean checkIfDragonIsNear() {
         for (Dragon i : dragons) {
-            if (i.isNextTo(hero) && !hero.hasSword() && i.getId() == "D") {
+            if (i.isNextTo(hero) && !hero.hasSword() && Objects.equals(i.getId(), "D")) {
                 hero.kill();
                 return true;
             }
@@ -155,10 +155,10 @@ public class Game {
     public void heroMove(String direction) {
         switch (direction) {
             case "a":
-                if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                        .getCoord().getY()) != "S") {
+                if (!Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                        .getCoord().getY()), "S")) {
                     checkMoveLeft();
-                } else if (exitOpen == true) {
+                } else if (exitOpen) {
                     GameState = true;
                     maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                             " ");
@@ -168,10 +168,10 @@ public class Game {
                 }
                 break;
             case "d":
-                if (maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
-                        .getCoord().getY()) != "S") {
+                if (!Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                        .getCoord().getY()), "S")) {
                     checkMoveRight();
-                } else if (exitOpen == true) {
+                } else if (exitOpen) {
                     GameState = true;
                     maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                             " ");
@@ -181,10 +181,10 @@ public class Game {
                 }
                 break;
             case "w":
-                if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                        .getCoord().getY() - 1) != "S") {
+                if (!Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                        .getCoord().getY() - 1), "S")) {
                     checkMoveUp();
-                } else if (exitOpen == true) {
+                } else if (exitOpen) {
                     GameState = true;
                     maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                             " ");
@@ -194,10 +194,10 @@ public class Game {
                 }
                 break;
             case "s":
-                if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                        .getCoord().getY() + 1) != "S") {
+                if (!Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                        .getCoord().getY() + 1), "S")) {
                     checkMoveDown();
-                } else if (exitOpen == true) {
+                } else if (exitOpen) {
                     GameState = true;
                     maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                             " ");
@@ -215,15 +215,15 @@ public class Game {
     }
 
     public void checkMoveLeft() {
-        if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                .getCoord().getY()) == " ") {
+        if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), " ")) {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                .getCoord().getY()) == "/") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), "/")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
@@ -232,8 +232,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                .getCoord().getY()) == "e") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), "e")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
@@ -242,8 +242,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                .getCoord().getY()) == "D") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), "D")) {
 
             if (hero.hasSword()) {
                 maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
@@ -263,8 +263,8 @@ public class Game {
                 hero.kill();
             }
 
-        } else if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                .getCoord().getY()) == "d"
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), "d")
                 && hero.hasSword()) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
@@ -280,8 +280,8 @@ public class Game {
                 }
 
             }
-        } else if (maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
-                .getCoord().getY()) == "*") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), "*")) {
             hero.grabDarts();
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
@@ -298,8 +298,8 @@ public class Game {
             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
-        } else if (maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
-                .getCoord().getY()) == "/") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                .getCoord().getY()), "/")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
@@ -308,8 +308,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
-                .getCoord().getY()) == "e") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                .getCoord().getY()), "e")) {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
             hero.grabShield();
@@ -317,8 +317,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
-                .getCoord().getY()) == "D") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                .getCoord().getY()), "D")) {
             if (hero.hasSword()) {
                 maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                         " ");
@@ -337,8 +337,8 @@ public class Game {
                 hero.kill();
             }
 
-        } else if (maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
-                .getCoord().getY()) == "d"
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                .getCoord().getY()), "d")
                 && hero.hasSword()) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
@@ -353,8 +353,8 @@ public class Game {
                     break;
                 }
 
-        } else if (maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
-                .getCoord().getY()) == "*") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                .getCoord().getY()), "*")) {
             hero.grabDarts();
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
@@ -365,15 +365,15 @@ public class Game {
     }
 
     public void checkMoveUp() {
-        if (maze.getCell((int) hero.getCoord().getX(), (int) hero.getCoord()
-                .getY() - 1) == " ") {
+        if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero.getCoord()
+                .getY() - 1), " ")) {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() - 1) == "/") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() - 1), "/")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
@@ -382,8 +382,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() - 1) == "e") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() - 1), "e")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
@@ -392,8 +392,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() - 1) == "D") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() - 1), "D")) {
 
             if (hero.hasSword()) {
                 maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
@@ -413,8 +413,8 @@ public class Game {
                 hero.kill();
             }
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() - 1) == "d"
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() - 1), "d")
                 && hero.hasSword()) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
@@ -430,8 +430,8 @@ public class Game {
                 }
             }
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() - 1) == "*") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() - 1), "*")) {
             hero.grabDarts();
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
@@ -441,15 +441,15 @@ public class Game {
     }
 
     public void checkMoveDown() {
-        if (maze.getCell((int) hero.getCoord().getX(), (int) hero.getCoord()
-                .getY() + 1) == " ") {
+        if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero.getCoord()
+                .getY() + 1), " ")) {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() + 1) == "/") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() + 1), "/")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
@@ -458,8 +458,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() + 1) == "e") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() + 1), "e")) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
@@ -468,8 +468,8 @@ public class Game {
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() + 1) == "D") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() + 1), "D")) {
 
             if (hero.hasSword()) {
                 maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
@@ -491,8 +491,8 @@ public class Game {
                 hero.kill();
             }
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() + 1) == "d"
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() + 1), "d")
                 && hero.hasSword()) {
 
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
@@ -507,8 +507,8 @@ public class Game {
                     break;
                 }
 
-        } else if (maze.getCell((int) hero.getCoord().getX(), (int) hero
-                .getCoord().getY() + 1) == "*") {
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() + 1), "*")) {
             hero.grabDarts();
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
@@ -524,12 +524,12 @@ public class Game {
         // put fire on the right
 
         for (int i = d.getCoord().x, j = 3; i < maze.getHeight() && j > 0; i++, j--) {
-            if (maze.getCell(i, d.getCoord().y) == "X"
-                    || maze.getCell(i, d.getCoord().y) == "*"
-                    || maze.getCell(i, d.getCoord().y) == "/"
-                    || maze.getCell(i, d.getCoord().y) == "^") {
+            if (Objects.equals(maze.getCell(i, d.getCoord().y), "X")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "*")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "/")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "^")) {
                 break;
-            } else if (maze.getCell(i, d.getCoord().y) == " ") {
+            } else if (Objects.equals(maze.getCell(i, d.getCoord().y), " ")) {
                 // set cell as fire
                 maze.setCellAsFire(new Point(i, d.getCoord().y));
                 d.addCellFire(new Point(i, d.getCoord().y));
@@ -539,12 +539,12 @@ public class Game {
         // put fire on the left
 
         for (int i = d.getCoord().x, j = 3; i >= 0 && j > 0; i--, j--) {
-            if (maze.getCell(i, d.getCoord().y) == "X"
-                    || maze.getCell(i, d.getCoord().y) == "*"
-                    || maze.getCell(i, d.getCoord().y) == "/"
-                    || maze.getCell(i, d.getCoord().y) == "^") {
+            if (Objects.equals(maze.getCell(i, d.getCoord().y), "X")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "*")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "/")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "^")) {
                 break;
-            } else if (maze.getCell(i, d.getCoord().y) == " ") {
+            } else if (Objects.equals(maze.getCell(i, d.getCoord().y), " ")) {
                 // set cell as fire
                 maze.setCellAsFire(new Point(i, d.getCoord().y));
                 d.addCellFire(new Point(i, d.getCoord().y));
@@ -554,12 +554,12 @@ public class Game {
         // put fire over
 
         for (int i = d.getCoord().y, j = 3; i >= 0 && j > 0; i--, j--) {
-            if (maze.getCell(d.getCoord().x, i) == "X"
-                    || maze.getCell(d.getCoord().x, i) == "*"
-                    || maze.getCell(d.getCoord().x, i) == "/"
-                    || maze.getCell(d.getCoord().x, i) == "^") {
+            if (Objects.equals(maze.getCell(d.getCoord().x, i), "X")
+                    || Objects.equals(maze.getCell(d.getCoord().x, i), "*")
+                    || Objects.equals(maze.getCell(d.getCoord().x, i), "/")
+                    || Objects.equals(maze.getCell(d.getCoord().x, i), "^")) {
                 break;
-            } else if (maze.getCell(d.getCoord().x, i) == " ") {
+            } else if (Objects.equals(maze.getCell(d.getCoord().x, i), " ")) {
                 // set cell as fire
                 maze.setCellAsFire(new Point(d.getCoord().x, i));
                 d.addCellFire(new Point(d.getCoord().x, i));
@@ -569,9 +569,9 @@ public class Game {
         // put fire under
 
         for (int i = d.getCoord().y, j = 3; i < maze.getWidth() && j > 0; i++, j--) {
-            if (maze.getCell(d.getCoord().x, i) == "X") {
+            if (Objects.equals(maze.getCell(d.getCoord().x, i), "X")) {
                 break;
-            } else if (maze.getCell(d.getCoord().x, i) == " ") {
+            } else if (Objects.equals(maze.getCell(d.getCoord().x, i), " ")) {
                 // set cell as fire
                 maze.setCellAsFire(new Point(d.getCoord().x, i));
                 d.addCellFire(new Point(d.getCoord().x, i));
@@ -598,64 +598,64 @@ public class Game {
 
         switch (direction) {
             case 0: // up
-                if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == " ") {
+                if (Objects.equals(maze.getCell(i.getCoord().x, i.getCoord().y - 1), " ")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x, i.getCoord().y - 1);
                     maze.setMaze(i.getCoord(), i.getType());
-                } else if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == "/") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x, i.getCoord().y - 1), "/")) {
                     sword.setVisible();
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x, i.getCoord().y - 1);
                     maze.setMaze(i.getCoord(), "F");
-                } else if (maze.getCell(i.getCoord().x, i.getCoord().y - 1) == "^") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x, i.getCoord().y - 1), "^")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x, i.getCoord().y - 1);
                     maze.setMaze(i.getCoord(), i.getType());
                 }
                 break;
             case 1: // down
-                if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == " ") {
+                if (Objects.equals(maze.getCell(i.getCoord().x, i.getCoord().y + 1), " ")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x, i.getCoord().y + 1);
                     maze.setMaze(i.getCoord(), i.getType());
-                } else if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == "/") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x, i.getCoord().y + 1), "/")) {
                     sword.setVisible();
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x, i.getCoord().y + 1);
                     maze.setMaze(i.getCoord(), "F");
-                } else if (maze.getCell(i.getCoord().x, i.getCoord().y + 1) == "^") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x, i.getCoord().y + 1), "^")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x, i.getCoord().y + 1);
                     maze.setMaze(i.getCoord(), i.getType());
                 }
                 break;
             case 2: // right
-                if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == " ") {
+                if (Objects.equals(maze.getCell(i.getCoord().x + 1, i.getCoord().y), " ")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x + 1, i.getCoord().y);
                     maze.setMaze(i.getCoord(), i.getType());
-                } else if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == "/") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x + 1, i.getCoord().y), "/")) {
                     sword.setVisible();
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x + 1, i.getCoord().y);
                     maze.setMaze(i.getCoord(), "F");
-                } else if (maze.getCell(i.getCoord().x + 1, i.getCoord().y) == "^") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x + 1, i.getCoord().y), "^")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x + 1, i.getCoord().y);
                     maze.setMaze(i.getCoord(), i.getType());
                 }
                 break;
             case 3: // left
-                if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == " ") {
+                if (Objects.equals(maze.getCell(i.getCoord().x - 1, i.getCoord().y), " ")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x - 1, i.getCoord().y);
                     maze.setMaze(i.getCoord(), i.getType());
-                } else if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == "/") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x - 1, i.getCoord().y), "/")) {
                     sword.setVisible();
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x - 1, i.getCoord().y);
                     maze.setMaze(i.getCoord(), "F");
-                } else if (maze.getCell(i.getCoord().x - 1, i.getCoord().y) == "^") {
+                } else if (Objects.equals(maze.getCell(i.getCoord().x - 1, i.getCoord().y), "^")) {
                     maze.setMaze(i.getCoord(), " ");
                     i.setCoord(i.getCoord().x - 1, i.getCoord().y);
                     maze.setMaze(i.getCoord(), i.getType());
@@ -686,10 +686,10 @@ public class Game {
         switch (direction) {
             case "a":
                 for (int i = hero.getCoord().x; i >= 0; i--) {
-                    if (maze.getCell(i, hero.getCoord().y) == "X") {
+                    if (Objects.equals(maze.getCell(i, hero.getCoord().y), "X")) {
                         break;
-                    } else if (maze.getCell(i, hero.getCoord().y) == "D"
-                            || maze.getCell(i, hero.getCoord().y) == "d") {
+                    } else if (Objects.equals(maze.getCell(i, hero.getCoord().y), "D")
+                            || Objects.equals(maze.getCell(i, hero.getCoord().y), "d")) {
                         for (Dragon j : dragons) {
                             if (j.getCoord().x == i
                                     && j.getCoord().y == hero.getCoord().y) {
@@ -705,10 +705,10 @@ public class Game {
                 break;
             case "d":
                 for (int i = hero.getCoord().x; i < maze.getHeight(); i++) {
-                    if (maze.getCell(i, hero.getCoord().y) == "X") {
+                    if (Objects.equals(maze.getCell(i, hero.getCoord().y), "X")) {
                         break;
-                    } else if (maze.getCell(i, hero.getCoord().y) == "D"
-                            || maze.getCell(i, hero.getCoord().y) == "d") {
+                    } else if (Objects.equals(maze.getCell(i, hero.getCoord().y), "D")
+                            || Objects.equals(maze.getCell(i, hero.getCoord().y), "d")) {
                         for (Dragon j : dragons) {
                             if (j.getCoord().x == i
                                     && j.getCoord().y == hero.getCoord().y) {
@@ -726,10 +726,10 @@ public class Game {
             case "w":
                 for (int i = hero.getCoord().y; i >= 0; i--) {
 
-                    if (maze.getCell(hero.getCoord().x, i) == "X") {
+                    if (Objects.equals(maze.getCell(hero.getCoord().x, i), "X")) {
                         break;
-                    } else if (maze.getCell(hero.getCoord().x, i) == "D"
-                            || maze.getCell(hero.getCoord().x, i) == "d") {
+                    } else if (Objects.equals(maze.getCell(hero.getCoord().x, i), "D")
+                            || Objects.equals(maze.getCell(hero.getCoord().x, i), "d")) {
                         for (Dragon j : dragons) {
                             if (j.getCoord().y == i
                                     && j.getCoord().x == hero.getCoord().x) {
@@ -747,10 +747,10 @@ public class Game {
             case "s":
                 for (int i = hero.getCoord().y; i < maze.getWidth(); i++) {
 
-                    if (maze.getCell(hero.getCoord().x, i) == "X") {
+                    if (Objects.equals(maze.getCell(hero.getCoord().x, i), "X")) {
                         break;
-                    } else if (maze.getCell(hero.getCoord().x, i) == "D"
-                            || maze.getCell(hero.getCoord().x, i) == "d") {
+                    } else if (Objects.equals(maze.getCell(hero.getCoord().x, i), "D")
+                            || Objects.equals(maze.getCell(hero.getCoord().x, i), "d")) {
                         for (Dragon j : dragons) {
                             if (j.getCoord().y == i
                                     && j.getCoord().x == hero.getCoord().x) {
