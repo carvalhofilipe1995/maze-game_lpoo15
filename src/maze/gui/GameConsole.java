@@ -284,67 +284,6 @@ public class GameConsole extends JPanel implements ActionListener {
         return this.game;
     }
 
-    public int getKey(String str) {
-        str = str.toUpperCase();
-
-        switch (str) {
-            case "A":
-                return KeyEvent.VK_A;
-            case "B":
-                return KeyEvent.VK_B;
-            case "C":
-                return KeyEvent.VK_C;
-            case "D":
-                return KeyEvent.VK_D;
-            case "E":
-                return KeyEvent.VK_E;
-            case "F":
-                return KeyEvent.VK_F;
-            case "G":
-                return KeyEvent.VK_G;
-            case "H":
-                return KeyEvent.VK_H;
-            case "I":
-                return KeyEvent.VK_I;
-            case "J":
-                return KeyEvent.VK_J;
-            case "K":
-                return KeyEvent.VK_K;
-            case "L":
-                return KeyEvent.VK_L;
-            case "M":
-                return KeyEvent.VK_M;
-            case "N":
-                return KeyEvent.VK_N;
-            case "O":
-                return KeyEvent.VK_O;
-            case "P":
-                return KeyEvent.VK_P;
-            case "Q":
-                return KeyEvent.VK_Q;
-            case "R":
-                return KeyEvent.VK_R;
-            case "S":
-                return KeyEvent.VK_S;
-            case "T":
-                return KeyEvent.VK_T;
-            case "U":
-                return KeyEvent.VK_U;
-            case "V":
-                return KeyEvent.VK_V;
-            case "W":
-                return KeyEvent.VK_W;
-            case "X":
-                return KeyEvent.VK_X;
-            case "Y":
-                return KeyEvent.VK_Y;
-            case "Z":
-                return KeyEvent.VK_Z;
-        }
-
-        return 0;
-    }
-
     private class KeyBoard extends KeyAdapter {
 
         public void keyPressed(KeyEvent e) {
@@ -418,8 +357,9 @@ public class GameConsole extends JPanel implements ActionListener {
         @Override
         public void mousePressed(MouseEvent e) {
             if (editorMode) {
+                int key = e.getButton();
                 Point p = e.getPoint();
-                if (e.getButton() == MouseEvent.BUTTON1) {
+                if (key == MouseEvent.BUTTON1) {
                     switch (elementID) {
                         case 0:
                             eraseCell(findCellInMaze(p));
@@ -448,11 +388,46 @@ public class GameConsole extends JPanel implements ActionListener {
                         default:
                             break;
                     }
-                } else if (e.getButton() == MouseEvent.BUTTON3) {
+                } else if (e.getButton() == MouseEvent.BUTTON2) {
                     eraseCell(findCellInMaze(p));
                 }
                 repaint();
             }
         }
     }
+    
+    public int getKey(String str) {
+		str = str.toUpperCase();
+		
+		switch (str) {
+		case "A": return KeyEvent.VK_A;
+		case "B": return KeyEvent.VK_B;
+		case "C": return KeyEvent.VK_C;
+		case "D": return KeyEvent.VK_D;
+		case "E": return KeyEvent.VK_E;
+		case "F": return KeyEvent.VK_F;
+		case "G": return KeyEvent.VK_G;
+		case "H": return KeyEvent.VK_H;
+		case "I": return KeyEvent.VK_I;
+		case "J": return KeyEvent.VK_J;
+		case "K": return KeyEvent.VK_K;
+		case "L": return KeyEvent.VK_L;
+		case "M": return KeyEvent.VK_M;
+		case "N": return KeyEvent.VK_N;
+		case "O": return KeyEvent.VK_O;
+		case "P": return KeyEvent.VK_P;
+		case "Q": return KeyEvent.VK_Q;
+		case "R": return KeyEvent.VK_R;
+		case "S": return KeyEvent.VK_S;
+		case "T": return KeyEvent.VK_T;
+		case "U": return KeyEvent.VK_U;
+		case "V": return KeyEvent.VK_V;
+		case "W": return KeyEvent.VK_W;
+		case "X": return KeyEvent.VK_X;
+		case "Y": return KeyEvent.VK_Y;
+		case "Z": return KeyEvent.VK_Z;
+		}
+		
+		return 0;
+	}
 }

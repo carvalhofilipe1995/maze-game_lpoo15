@@ -55,10 +55,10 @@ public class Game implements Serializable {
     
     /**
      * 
-     * @param height
-     * @param width
-     * @param number_dragons
-     * @param type_dragons
+     * @param height  height maze
+     * @param width  width maze
+     * @param number_dragons  number dragons maze
+     * @param type_dragons	type dragons maze
      */
     public Game(int height, int width, int number_dragons, int type_dragons) {
 
