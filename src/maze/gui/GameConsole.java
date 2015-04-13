@@ -62,6 +62,11 @@ public class GameConsole extends JPanel implements ActionListener {
 
     }
 
+    public void loadGame(Game g) {
+        this.game = g;
+        initGame();
+    }
+
     public void setDragonType(int dragonType) {
         this.dragonType = dragonType;
     }
