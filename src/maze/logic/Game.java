@@ -338,6 +338,7 @@ public class Game implements Serializable {
                 if (dragon.getCoord().equals(hero.getCoord())) {
                     deleteDragonFire();
                     dragon.kill();
+                    dragon.removeCellsOnFire();
                     dragons.remove(dragon);
                     break;
                 }
@@ -721,6 +722,21 @@ public class Game implements Serializable {
         }
 
     }
+    /**
+     * Remove cells on fire by dragon d
+     * @param d dragon
+     */
+    
+    public void deleteFireDragon(Dragon d){
+    	for(Dragon i : dragons){
+    		if(i.getCoord().x == d.getCoord().x && i.getCoord().y == d.getCoord().y){
+    			Vector<Point> p = i.getCellsOnFire();
+    			for(int j = 0; j < p.size(); j++){
+    				maze.setMaze(p.elementAt(j), " ");
+    			}
+    		}
+    	}
+    }
 
     /**
      * Move dragons
@@ -839,6 +855,8 @@ public class Game implements Serializable {
                                     && j.getCoord().y == hero.getCoord().y) {
                                 j.kill();
                                 maze.setMaze(j.getCoord(), " ");
+                                deleteFireDragon(j);
+                                j.removeCellsOnFire();
                                 dragons.remove(j);
                                 hero.setDarts();
                                 break;
@@ -858,6 +876,8 @@ public class Game implements Serializable {
                                     && j.getCoord().y == hero.getCoord().y) {
                                 j.kill();
                                 maze.setMaze(j.getCoord(), " ");
+                                deleteFireDragon(j);
+                                j.removeCellsOnFire();
                                 dragons.remove(j);
                                 hero.setDarts();
                                 break;
@@ -878,7 +898,9 @@ public class Game implements Serializable {
                             if (j.getCoord().y == i
                                     && j.getCoord().x == hero.getCoord().x) {
                                 j.kill();
+                                deleteFireDragon(j);
                                 maze.setMaze(j.getCoord(), " ");
+                                j.removeCellsOnFire();
                                 dragons.remove(j);
                                 hero.setDarts();
                                 break;
@@ -899,7 +921,9 @@ public class Game implements Serializable {
                             if (j.getCoord().y == i
                                     && j.getCoord().x == hero.getCoord().x) {
                                 j.kill();
+                                deleteFireDragon(j);
                                 maze.setMaze(j.getCoord(), " ");
+                                j.removeCellsOnFire();
                                 dragons.remove(j);
                                 hero.setDarts();
                                 break;
