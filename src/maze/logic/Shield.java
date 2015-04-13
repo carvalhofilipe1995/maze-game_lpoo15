@@ -2,38 +2,17 @@ package maze.logic;
 
 import java.io.Serializable;
 
-<<<<<<< Updated upstream
 public class Shield extends Cell implements Serializable {
-    /**
-     *
-     */
+
     private static final long serialVersionUID = 1L;
     private boolean picked;
 
     /**
      * Shield Constructor
      *
-     * @param x
-     * @param y
+     * @param x coordinate x
+     * @param y coordinate y
      */
-=======
-/**
- * Shield element
- * @author luiscarvalho
- *
- */
-public class Shield extends Cell  implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private boolean picked;
-	/**
-	 * Shield Constructor
-	 * @param x coordinate x
-	 * @param y coordinate y
-	 */
->>>>>>> Stashed changes
     public Shield(int x, int y) {
         super(x, y, "e", true);
         this.picked = false;
