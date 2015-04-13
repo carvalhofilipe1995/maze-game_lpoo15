@@ -4,8 +4,17 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Stack;
+<<<<<<< Updated upstream
 
 public class MazeGenerator implements Serializable {
+=======
+/**
+ * Build maze class
+ * @author luiscarvalho
+ *
+ */
+public class MazeGenerator  implements Serializable {
+>>>>>>> Stashed changes
     /**
      *
      */
@@ -22,9 +31,14 @@ public class MazeGenerator implements Serializable {
 
     /**
      * MazeGenerator Constructor
+<<<<<<< Updated upstream
      *
      * @param height
      * @param width
+=======
+     * @param height maze height
+     * @param width maze width
+>>>>>>> Stashed changes
      */
     public MazeGenerator(int height, int width) {
         this.height = height;
@@ -61,8 +75,14 @@ public class MazeGenerator implements Serializable {
     }
 
     /**
+<<<<<<< Updated upstream
      * @param x
      * @param y
+=======
+     * 
+     * @param x cell coordinate x
+     * @param y cell coordinate y
+>>>>>>> Stashed changes
      * @return the cell with this coordinates
      */
     public String getCell(int x, int y) {
@@ -78,9 +98,14 @@ public class MazeGenerator implements Serializable {
 
     /**
      * Change the exit coordinates
+<<<<<<< Updated upstream
      *
      * @param x
      * @param y
+=======
+     * @param x exit coordinate x
+     * @param y exit coordinate y
+>>>>>>> Stashed changes
      */
     public void setExit(int x, int y) {
         this.exit = new Point(x, y);
@@ -88,18 +113,28 @@ public class MazeGenerator implements Serializable {
 
     /**
      * Put the cell with fire
+<<<<<<< Updated upstream
      *
      * @param p
+=======
+     * @param p point on fire
+>>>>>>> Stashed changes
      */
     public void setCellAsFire(Point p) {
         setMaze(p, "^");
     }
 
     /**
+<<<<<<< Updated upstream
      * Change maze in this point
      *
      * @param p
      * @param change
+=======
+     * Change maze in this point 
+     * @param p cell to change
+     * @param change change that will be made
+>>>>>>> Stashed changes
      */
     public void setMaze(Point p, String change) {
         this.lab[(int) p.getY()][(int) p.getX()] = change;
@@ -107,9 +142,14 @@ public class MazeGenerator implements Serializable {
 
     /**
      * Set cell as visited
+<<<<<<< Updated upstream
      *
      * @param p
      * @param change
+=======
+     * @param p cell to set as visited
+     * @param change change to make
+>>>>>>> Stashed changes
      */
     public void setVisitedCells(Point p, String change) {
         this.visitedCells[(int) p.getY()][(int) p.getX()] = change;
@@ -272,7 +312,12 @@ public class MazeGenerator implements Serializable {
     }
 
     /**
+<<<<<<< Updated upstream
      * @param direction
+=======
+     * 
+     * @param direction cell to visit
+>>>>>>> Stashed changes
      * @return true if cell has been visited
      */
     public boolean cellHasBeenVisited(int direction) {
@@ -304,7 +349,12 @@ public class MazeGenerator implements Serializable {
     }
 
     /**
+<<<<<<< Updated upstream
      * @param direction
+=======
+     * 
+     * @param direction direction to check
+>>>>>>> Stashed changes
      * @return true if direction is valid
      */
     public boolean checkIfMoveIsValid(int direction) {
@@ -335,11 +385,18 @@ public class MazeGenerator implements Serializable {
         return !cellHasBeenVisited(direction);
     }
 
+<<<<<<< Updated upstream
     /**
      * Update the guide cell
      *
      * @param direction
      */
+=======
+   /**
+    * Update the guide cell
+    * @param direction direction to update
+    */
+>>>>>>> Stashed changes
     public void updateGuideCell(int direction) {
         switch (direction) {
             case 0: // up
