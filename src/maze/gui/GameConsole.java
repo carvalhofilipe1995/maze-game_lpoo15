@@ -49,8 +49,15 @@ public class GameConsole extends JPanel implements ActionListener {
         loadImages();
     }
 
-    public void loadGame(Game g) {
+    public void loadGame(Game g, String up, String down, String right, String left, String darts) {
         this.game = g;
+        
+        upKey = getKey(up);
+        downKey = getKey(down);
+        leftKey = getKey(left);
+        rightKey = getKey(right);
+        sendDartsKey = getKey(darts);
+        
         initGame();
 
     }
@@ -66,10 +73,16 @@ public class GameConsole extends JPanel implements ActionListener {
     }
 
     public void startNewGame(int width, int height, int numberDragons,
-                             int typeDragons) {
+                             int typeDragons, String up, String down, String right, String left, String darts) {
 
         game = new Game(height, width, numberDragons, typeDragons);
         game.initializePositionsElements(numberDragons);
+        
+        upKey = getKey(up);
+        downKey = getKey(down);
+        leftKey = getKey(left);
+        rightKey = getKey(right);
+        sendDartsKey = getKey(darts);
 
         initGame();
     }

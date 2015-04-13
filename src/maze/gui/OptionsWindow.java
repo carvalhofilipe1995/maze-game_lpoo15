@@ -25,7 +25,7 @@ public class OptionsWindow extends JDialog {
     private JTextField sendDartsC;
 
     private String upC = "";
-    private String downC = " ";
+    private String downC = "";
     private String rightC = "";
     private String leftC = "";
     private String dartsC = "";
@@ -184,6 +184,12 @@ public class OptionsWindow extends JDialog {
                     } else if (type_dragons == 2) {
                         typeDragons = 3;
                     }
+                    
+                    upC = upControl.getText();
+                    downC = downControl.getText();
+                    leftC = leftControl.getText();
+                    rightC = rightControl.getText();
+                    dartsC = sendDartsC.getText();
 
                     setVisible(false);
 
