@@ -153,21 +153,34 @@ public class Game implements Serializable {
             return;
         }
 
-        if (type_dragons == 2) {
+        if (type_dragons == 1) {
+            deleteDragonFire();
+            int j = 3;
+            for (Dragon i : dragons) {
+                if (j < random.nextInt(10))
+                    dragonsFire(i);
+            }
+        } else if (type_dragons == 2) {
 
             for (Dragon i : dragons) {
                 deleteDragonFire();
                 moveDragons(i, random.nextInt(4));
-                dragonsFire(i);
+                int j = 3;
+                if (j < random.nextInt(10))
+                    dragonsFire(i);
+
             }
 
         } else if (type_dragons == 3) {
             for (Dragon i : dragons) {
                 deleteDragonFire();
-                moveDragons(i, random.nextInt(4));
+                if (i.isAwake()) {
+                    moveDragons(i, random.nextInt(4));
+                    int j = 3;
+                    if (j < random.nextInt(10))
+                        dragonsFire(i);
+                }
                 sleepDragons();
-                if (i.isAwake())
-                    dragonsFire(i);
             }
         }
 
@@ -345,6 +358,16 @@ public class Game implements Serializable {
             hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() - 1, (int) hero
+                .getCoord().getY()), "^")) {
+            if (hero.hasShield()) {
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
+                hero.setCoord(hero.getCoord().x - 1, hero.getCoord().y);
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
+                        hero.getId());
+            } else
+                hero.kill();
+
         }
 
     }
@@ -422,6 +445,16 @@ public class Game implements Serializable {
             hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX() + 1, (int) hero
+                .getCoord().getY()), "^")) {
+            if (hero.hasShield()) {
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
+                hero.setCoord(hero.getCoord().x + 1, hero.getCoord().y);
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
+                        hero.getId());
+            } else
+                hero.kill();
+
         }
 
     }
@@ -503,6 +536,16 @@ public class Game implements Serializable {
             hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() - 1), "^")) {
+            if (hero.hasShield()) {
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
+                hero.setCoord(hero.getCoord().x, hero.getCoord().y - 1);
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
+                        hero.getId());
+            } else
+                hero.kill();
+
         }
     }
 
@@ -584,6 +627,16 @@ public class Game implements Serializable {
             hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
             maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
                     hero.getId());
+        } else if (Objects.equals(maze.getCell((int) hero.getCoord().getX(), (int) hero
+                .getCoord().getY() + 1), "^")) {
+            if (hero.hasShield()) {
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y), " ");
+                hero.setCoord(hero.getCoord().x, hero.getCoord().y + 1);
+                maze.setMaze(new Point(hero.getCoord().x, hero.getCoord().y),
+                        hero.getId());
+            } else
+                hero.kill();
+
         }
     }
 
@@ -592,7 +645,7 @@ public class Game implements Serializable {
     /**
      * Put cells on fire
      *
-     * @param dragon dragon
+     * @param Dragon dragon
      */
     public void dragonsFire(Dragon d) {
 

@@ -1,7 +1,5 @@
 package maze.gui;
 
-import maze.logic.Game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +13,7 @@ public class GameWindow extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private Game game;
+    //private Game game;
 
     private JButton newGame;
     private JButton createGame;
