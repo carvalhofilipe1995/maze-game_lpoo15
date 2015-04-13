@@ -1,7 +1,11 @@
 package maze.logic;
 
 import java.io.Serializable;
-
+/**
+ * Represents hero element
+ * @author luiscarvalho
+ *
+ */
 public class Hero extends Cell  implements Serializable {
 
     /**

@@ -4,7 +4,11 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Stack;
-
+/**
+ * Represents labyrinth creator
+ * @author luiscarvalho
+ *
+ */
 public class MazeGenerator  implements Serializable {
     private static final long serialVersionUID = 1L;
     // camps

@@ -2,7 +2,11 @@ package maze.logic;
 
 import java.awt.*;
 import java.io.Serializable;
-
+/**
+ *  Represents elements
+ * @author luiscarvalho
+ *
+ */
 public abstract class Cell implements Serializable {
     /**
      *
@@ -57,7 +61,7 @@ public abstract class Cell implements Serializable {
     /**
      * Set id of the cell
      *
-     * @param id
+     * @param id new id
      */
     public void setId(String id) {
         this.id = id;

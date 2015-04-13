@@ -1,6 +1,5 @@
 package maze.gui;
 
-import maze.logic.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.event.ActionListener;
 public class OptionsWindow extends JDialog {
 
     private static final long serialVersionUID = 1L;
-    private Game game;
+    
 
     private JSlider dimensionSlider;
     private JSlider num_Dragons;

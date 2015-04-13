@@ -1,7 +1,11 @@
 package maze.logic;
 
 import java.io.Serializable;
-
+/**
+ * Represents Shield element
+ * @author luiscarvalho
+ *
+ */
 public class Shield extends Cell implements Serializable {
 
     private static final long serialVersionUID = 1L;

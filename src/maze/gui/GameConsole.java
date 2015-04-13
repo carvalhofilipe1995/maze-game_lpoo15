@@ -16,7 +16,11 @@ import java.util.Objects;
 
 public class GameConsole extends JPanel implements ActionListener {
 
-    private BufferedImage heroWithSword;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private BufferedImage heroWithSword;
     private BufferedImage heroWithOutSword;
     private BufferedImage darts;
     private BufferedImage sword;

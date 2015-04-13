@@ -7,6 +7,11 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 
+/**
+ * Represents Game State
+ * @author luiscarvalho
+ *
+ */
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;

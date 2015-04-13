@@ -1,7 +1,11 @@
 package maze.logic;
 
 import java.io.Serializable;
-
+/**
+ * Represent Sword element
+ * @author luiscarvalho
+ *
+ */
 public class Sword extends Cell implements Serializable {
     /**
      *

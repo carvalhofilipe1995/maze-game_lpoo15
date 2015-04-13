@@ -4,6 +4,11 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Vector;
 
+/**
+ * Represents Dragon element
+ * @author luiscarvalho
+ *
+ */
 public class Dragon extends Cell implements Serializable {
 
     private static final long serialVersionUID = 1L;
