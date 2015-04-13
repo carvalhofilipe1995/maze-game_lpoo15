@@ -1,5 +1,7 @@
 package maze.gui;
 
+
+import maze.cli.Interface;
 import maze.logic.Dragon;
 import maze.logic.Game;
 
@@ -14,7 +16,6 @@ import java.util.Objects;
 
 public class GameConsole extends JPanel implements ActionListener {
 
-    private int cellWidth, cellHeight;
     private BufferedImage heroWithSword;
     private BufferedImage heroWithOutSword;
     private BufferedImage darts;
@@ -29,6 +30,7 @@ public class GameConsole extends JPanel implements ActionListener {
     private boolean activeGame = false, editorMode;
     private Game game;
     private int elementID, dragonType;
+    private Interface cli;
 
     private int upKey = KeyEvent.VK_W;
     private int leftKey = KeyEvent.VK_A;
@@ -37,13 +39,13 @@ public class GameConsole extends JPanel implements ActionListener {
     private int sendDartsKey = KeyEvent.VK_E;
 
     public GameConsole(boolean editor) {
+        cli = new Interface();
         editorMode = editor;
         elementID = -1;
         addKeyListener(new KeyBoard());
         addMouseListener(new Mouse());
         setFocusable(true);
         setDoubleBuffered(true);
-
         loadImages();
     }
 
@@ -82,6 +84,8 @@ public class GameConsole extends JPanel implements ActionListener {
         setVisible(true);
         requestFocus();
         repaint();
+        cli.setGame(game);
+        cli.printGame();
     }
 
     public void loadImages() {
@@ -143,36 +147,19 @@ public class GameConsole extends JPanel implements ActionListener {
                     drawCellsMaze(g2d, shield, i, j);
                 else if (Objects.equals(game.getMaze().getCell(i, j), "^"))
                     drawCellsMaze(g2d, fire, i, j);
-
+                else if (Objects.equals(game.getMaze().getCell(i, j), "F"))
+                    drawCellsMaze(g2d, dragonAwake, i, j);
     }
 
     public void drawCellsMaze(Graphics2D g, BufferedImage image, int i, int j) {
-        int dstX, dstY, yCorrection;
-
-        cellWidth = this.getWidth() / this.game.getMaze().getWidth();
-        cellHeight = (int) (cellWidth / (131.0 / 101.0));
-        int temp = (int) (81.0 * cellHeight / 131.0);
-
-        if (this.getHeight() < temp * game.getMaze().getHeight()) {
-            cellHeight = this.getHeight() / game.getMaze().getHeight();
-            cellHeight += 81.0 * cellHeight / 131.0;
-            cellWidth = (int) (cellHeight * 101.0 / 131.0);
+        int sizeX, sizeY;
+        if (getWidth() > getHeight()) {
+            sizeX = sizeY = getHeight() / game.getMaze().getHeight();
+        } else {
+            sizeX = sizeY = getWidth() / game.getMaze().getWidth();
         }
-
-        yCorrection = (int) (-50.0 * cellHeight / 131.0);
-
-        dstX = i * cellWidth;
-
-        dstY = j * (yCorrection + cellHeight);
-
-        // centering board
-        dstX += (getWidth() - cellWidth * game.getMaze().getWidth()) / 2.0;
-        dstY += (getHeight() - (cellHeight - 0.37 * cellHeight)
-                * game.getMaze().getHeight()) / 2.0;
-
-        g.drawImage(image, dstX, dstY, dstX + cellWidth, dstY + cellHeight, 0,
-                0, image.getWidth(null), image.getHeight(null), null);
-
+        g.drawImage(image, i * sizeX + (getWidth() - sizeX * game.getMaze().getWidth()) / 2,
+                j * sizeY + (getHeight() - sizeX * game.getMaze().getWidth()) / 2, sizeX, sizeY, null);
     }
 
     // Update Game State
@@ -183,32 +170,21 @@ public class GameConsole extends JPanel implements ActionListener {
     }
 
     Point findCellInMaze(Point p) {
-        int dstX, dstY, yCorrection, i, j;
+
+        int sizeX, sizeY, i, j;
+        if (getWidth() > getHeight()) {
+            sizeX = sizeY = getHeight() / game.getMaze().getHeight();
+        } else {
+            sizeX = sizeY = getWidth() / game.getMaze().getWidth();
+        }
 
         for (i = 0; i < game.getMaze().getWidth(); i++) {
             for (j = 0; j < game.getMaze().getHeight(); j++) {
 
-                cellWidth = this.getWidth() / this.game.getMaze().getWidth();
-                cellHeight = (int) (cellWidth / (131.0 / 101.0));
-                int temp = (int) (81.0 * cellHeight / 131.0);
-
-                if (this.getHeight() < temp * game.getMaze().getHeight()) {
-                    cellHeight = this.getHeight() / game.getMaze().getHeight();
-                    cellHeight += 81.0 * cellHeight / 131.0;
-                    cellWidth = (int) (cellHeight * 101.0 / 131.0);
-                }
-
-                yCorrection = (int) (-50.0 * cellHeight / 131.0);
-
-                dstX = i * cellWidth;
-
-                dstY = j * (yCorrection + cellHeight);
-
-                // centering board
-                dstX += (getWidth() - cellWidth * game.getMaze().getWidth()) / 2.0;
-                dstY += (getHeight() - (cellHeight - 0.37 * cellHeight)
-                        * game.getMaze().getHeight()) / 2.0;
-                if (p.x > dstX && p.x < dstX + cellWidth && p.y > dstY && p.y < dstY + cellHeight)
+                if (p.x > i * sizeX + (getWidth() - sizeX * game.getMaze().getWidth()) / 2
+                        && p.x < (i + 1) * sizeX + (getWidth() - sizeX * game.getMaze().getWidth()) / 2
+                        && p.y > j * sizeY + (getHeight() - sizeX * game.getMaze().getWidth()) / 2
+                        && p.y < (j + 1) * sizeY + (getHeight() - sizeX * game.getMaze().getWidth()) / 2)
                     return new Point(i, j);
 
             }
@@ -410,6 +386,8 @@ public class GameConsole extends JPanel implements ActionListener {
                     }
                 }
                 repaint();
+                cli.setGame(game);
+                cli.printGame();
             }
         }
     }

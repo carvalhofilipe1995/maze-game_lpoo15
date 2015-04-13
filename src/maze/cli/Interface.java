@@ -9,6 +9,10 @@ public class Interface {
     protected static Game game;
     static Scanner scan = new Scanner(System.in);
 
+    public static void setGame(Game game) {
+        Interface.game = game;
+    }
+
     public static void printMenu() {
         System.out.print(">>>>>>>>>> The Labirinth >>>>>>>>>>\n\n");
         System.out.print("\t1. Play\n");
@@ -24,6 +28,7 @@ public class Interface {
             }
             System.out.print("\n");
         }
+        System.out.print("\n\n");
     }
 
     public static void createGame() {

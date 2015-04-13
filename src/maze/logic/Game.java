@@ -127,6 +127,7 @@ public class Game implements Serializable {
 
     /**
      * Update the game state
+     *
      * @param direction hero direction
      */
     public void updateGameState(String direction) {
@@ -206,6 +207,7 @@ public class Game implements Serializable {
 
     /**
      * Check if hero can move
+     *
      * @param direction hero direction
      */
 
@@ -634,6 +636,7 @@ public class Game implements Serializable {
 
     /**
      * Put cells on fire
+     *
      * @param Dragon dragon
      */
     public void dragonsFire(Dragon d) {
@@ -644,7 +647,8 @@ public class Game implements Serializable {
             if (Objects.equals(maze.getCell(i, d.getCoord().y), "X")
                     || Objects.equals(maze.getCell(i, d.getCoord().y), "*")
                     || Objects.equals(maze.getCell(i, d.getCoord().y), "/")
-                    || Objects.equals(maze.getCell(i, d.getCoord().y), "^")) {
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "^")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "H")) {
                 break;
             } else if (Objects.equals(maze.getCell(i, d.getCoord().y), " ")) {
                 // set cell as fire
@@ -659,7 +663,8 @@ public class Game implements Serializable {
             if (Objects.equals(maze.getCell(i, d.getCoord().y), "X")
                     || Objects.equals(maze.getCell(i, d.getCoord().y), "*")
                     || Objects.equals(maze.getCell(i, d.getCoord().y), "/")
-                    || Objects.equals(maze.getCell(i, d.getCoord().y), "^")) {
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "^")
+                    || Objects.equals(maze.getCell(i, d.getCoord().y), "H")) {
                 break;
             } else if (Objects.equals(maze.getCell(i, d.getCoord().y), " ")) {
                 // set cell as fire
@@ -674,7 +679,8 @@ public class Game implements Serializable {
             if (Objects.equals(maze.getCell(d.getCoord().x, i), "X")
                     || Objects.equals(maze.getCell(d.getCoord().x, i), "*")
                     || Objects.equals(maze.getCell(d.getCoord().x, i), "/")
-                    || Objects.equals(maze.getCell(d.getCoord().x, i), "^")) {
+                    || Objects.equals(maze.getCell(d.getCoord().x, i), "^")
+                    || Objects.equals(maze.getCell(d.getCoord().x, i), "H")) {
                 break;
             } else if (Objects.equals(maze.getCell(d.getCoord().x, i), " ")) {
                 // set cell as fire
@@ -707,7 +713,8 @@ public class Game implements Serializable {
             Vector<Point> fire = i.getCellsOnFire();
 
             for (Point p : fire) {
-                maze.setMaze(p, " ");
+                if (!getMaze().getCell(p.x, p.y).equals(hero.getId()))
+                    maze.setMaze(p, " ");
             }
 
             i.removeCellsOnFire();
@@ -717,7 +724,8 @@ public class Game implements Serializable {
 
     /**
      * Move dragons
-     * @param i  dragon
+     *
+     * @param i         dragon
      * @param direction dragon direction
      */
     public void moveDragons(Dragon i, int direction) {
@@ -793,9 +801,9 @@ public class Game implements Serializable {
         }
 
     }
-    
+
     /**
-     *  Make dragons sleep
+     * Make dragons sleep
      */
 
     public void sleepDragons() {
@@ -810,9 +818,10 @@ public class Game implements Serializable {
         }
 
     }
-    
+
     /**
      * Check darts direction
+     *
      * @param direction darts direction
      */
 
@@ -907,10 +916,10 @@ public class Game implements Serializable {
 
     }
 
-   
 
     /**
      * Put the elements in the maze
+     *
      * @param number_dragons number dragons to populate
      */
     public void initializePositionsElements(int number_dragons) {
@@ -994,6 +1003,7 @@ public class Game implements Serializable {
 
     /**
      * Put dragons in the maze
+     *
      * @param number_dragons dragons to populate
      */
 
