@@ -14,7 +14,7 @@ public class SaveAndLoad extends JDialog {
     private static final long serialVersionUID = 1L;
     private GameConsole gamePanel;
     private JTextField nameFileToSave;
-    private List gamesList;
+    private List gamesSaved;
     private boolean loadCall = false;
 
     private String GamesFolder = "Saved";
@@ -84,8 +84,8 @@ public class SaveAndLoad extends JDialog {
         JPanel ListPanel = new JPanel();
         LoadGame.add(ListPanel);
 
-        gamesList = new List();
-        ListPanel.add(gamesList);
+        gamesSaved = new List();
+        ListPanel.add(gamesSaved);
 
         JButton loadButton = new JButton("Load");
         ListPanel.add(loadButton);
@@ -129,12 +129,12 @@ public class SaveAndLoad extends JDialog {
                     + "/" + nameFileToSave.getText()));
             file.writeObject(gamePanel.getGame());
             file.close();
-            JOptionPane.showMessageDialog(null, "Game successfully saved.");
+            JOptionPane.showMessageDialog(null, "Game saved");
             setVisible(false);
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,
-                    "An error occured while saving the game.");
+                    "Error occured while saving the game.");
         }
 
     }
@@ -143,15 +143,15 @@ public class SaveAndLoad extends JDialog {
     	
     	loadCall = true;
 
-        if (gamesList.getSelectedItem() == null) {
+        if (gamesSaved.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null,
-                    "You must select a game to load.");
+                    "You have to select a game");
             return null;
         }
 
         try {
             FileInputStream fin = new FileInputStream(GamesFolder + "/"
-                    + gamesList.getSelectedItem());
+                    + gamesSaved.getSelectedItem());
             ObjectInputStream ois = new ObjectInputStream(fin);
             Game game = (Game) ois.readObject();
             ois.close();
@@ -161,20 +161,20 @@ public class SaveAndLoad extends JDialog {
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null,
-                    "An error occured while loading the game.");
+                    "Error occured while loading the game.");
             return null;
         }
 
     }
 
     public void updateGamesSaved() {
-        File folder = new File(GamesFolder);
-        if (!folder.isDirectory())
+        File gameFolder = new File(GamesFolder);
+        if (!gameFolder.isDirectory())
             return;
 
-        gamesList.removeAll();
-        for (File file : folder.listFiles())
-            gamesList.add(file.getName());
+        gamesSaved.removeAll();
+        for (File file : gameFolder.listFiles())
+            gamesSaved.add(file.getName());
     }
     
     public boolean getLoadCall(){
